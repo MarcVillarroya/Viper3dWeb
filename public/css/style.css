@@ -1,0 +1,420 @@
+/* Estilo para aplicar un gradiente en el fondo del footer que va de azul a negro */
+.footer_control {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.product-card img {
+  object-fit: cover;
+  width: 100%;
+  height: 300px;
+}
+#product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.product-card {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card-footer {
+  padding: 1rem;
+  
+}
+
+.card-footer h5 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.card-footer p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+
+.footer-gradient {
+    background-image: linear-gradient(to bottom, #1a237e, #000000);
+    color: #e0e0e0; /* Establece el color del texto en el footer a un tono gris claro */
+}
+
+/* Estilo para los enlaces en el footer */
+.footer-gradient a {
+    color: #9fa8da; /* Establece el color de los enlaces a un tono azul claro */
+}
+
+/* Estilo para el efecto hover en los enlaces del footer */
+.footer-gradient a:hover {
+    color: #e0e0e0c1; /* Cambia el color de los enlaces a gris claro cuando se pasa el cursor sobre ellos */
+}
+
+/* Estilo para el elemento h5 en el footer */
+.footer-gradient h5 {
+    margin-bottom: 20px; /* Añade un margen inferior a los elementos h5 en el footer */
+}
+
+/* Estilo para los íconos de redes sociales (si se utiliza Font Awesome) */
+.fab {
+    font-size: 24px; /* Establece el tamaño de los íconos a 24px */
+    margin: 0 8px; /* Añade un margen horizontal a los íconos para darles espacio */
+}
+
+/* Estilo para el gradiente de la cabecera */
+.header-gradient {
+    background-image: linear-gradient(to bottom, #000000, #1a237e);
+}
+
+/* Estilo para ajustar el menú a la derecha */
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+.dropdown-menu {
+    background-color: #1a237e;
+    text-align: center;
+}
+
+.dropdown-menu a {
+    color: white;
+}
+
+.dropdown-menu a:hover {
+    color: black !important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-placeholder {
+    height: 0;
+    padding-bottom: 56.25%;
+    background-color: #ddd;
+}
+
+.card-img-top {
+    max-width: 100%;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 576px) {
+    .card {
+        margin-bottom: 20px;
+    }
+}
+.navbar-brand img {
+    max-width: 100px;
+    height: auto;
+}
+
+.card-overlay {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s;
+}
+
+.card-overlay:hover .card-image {
+    transform: scale(1.2);
+}
+
+.card-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s;
+}
+
+.card-overlay:hover .card-description {
+    opacity: 1;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-description h4 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .card-description p {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .logo-zoom img {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-zoom:hover img {
+    transform: scale(1.2);
+  }
+  
+  @media (max-width: 991.98px) {
+    .navbar-collapse {
+      text-align: center;
+    }
+  
+    .navbar-nav {
+      display: inline-block;
+      float: none;
+      vertical-align: top;
+    }
+  
+    .navbar-collapse::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+  /* Estilo para los elementos del menú */
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+/* Estilo para las filas de la tabla de usuarios */
+.table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+.status-indicator {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+
+  .status-indicator-auth {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    color: green;
+  }
+
+
+  #led-indicator {
+    display: flex;
+    align-items: center;
+    color: darkgray;
+  }
+
+  .login-text {
+    font-size: 1rem;
+    color: darkgrey;
+  }
+  
+  .green-icon {
+    color: green;
+  }
+
+  .container-fluid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .row {
+    flex: 1;
+  }
+
+  .thumbnail {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .image-container-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    overflow: hidden;
+  }
+  #products-content .products-container {
+    margin-bottom: 100px; /* Ajusta este valor según la altura de tu footer */
+  }
+
+  #product-container{
+    margin-bottom: 30px;
+  }
+
+
+
+
+  .modal-5 {
+    position: relative;
+    display: flex; /* Agregado para habilitar el diseño flex */
+    justify-content: center; /* Centrar los elementos flex horizontalmente */
+  }
+  
+  .modal-5:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+  }
+  
+  .modal-5 a {
+    color: #666;
+    padding: 13px 5px 5px;
+    margin: 0 10px;
+    position: relative;
+    text-align: center;
+  }
+  
+  .modal-5 a:hover {
+    color: #fff;
+  }
+  
+  .modal-5 a:hover:after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: #1E7EE2;
+    border-radius: 100%;
+    z-index: -1;
+    left: -3px;
+    bottom: 4px;
+    margin: auto;
+  }
+  
+  .modal-5 a.next,
+  .modal-5 a.prev {
+    color: #1a237e;
+  }
+  
+  .modal-5 a.next:hover,
+  .modal-5 a.prev:hover {
+    color: #fff;
+  }
+  
+  .modal-5 a.next:hover:after,
+  .modal-5 a.prev:hover:after {
+    display: none;
+  }
+  
+  .modal-5 a.active {
+    background: #1a237e;
+    color: #fff;
+  }
+  
+  .modal-5 a.active:before {
+    content: '';
+    position: absolute;
+    top: -11px;
+    left: -10px;
+    width: 18px;
+    border: 10px solid transparent;
+    border-bottom: 7px solid #104477;
+    z-index: -1;
+  }
+  
+  .modal-5 a.active:hover:after {
+    display: none;
+  }
+
+
+
+
+  .modal-content {
+    border-radius: 10px;
+  }
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .carousel-indicators li {
+    background-color: #555;
+  }
+  .carousel-indicators .active {
+    background-color: #fff;
+  }
+  #productInfo {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .carousel-inner {
+    height: 100%; /* Elige la altura deseada para el carrusel */
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .carousel-item img,
+  .carousel-item video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .carousel-item video {
+    object-fit: contain; /* Esta propiedad hace que el video mantenga sus proporciones y se ajuste al tamaño del contenedor */
+  }
+
+
+
+  .custom-video-controls .vjs-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+  
+  
+  
+
+  
+  
+  
+  
+  

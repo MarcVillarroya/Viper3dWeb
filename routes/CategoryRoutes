@@ -1,0 +1,72 @@
+const express = require('express');
+const router = express.Router();
+const { getCategories, createCategory, deleteCategory, updateCategory, getCategoryById} = require('../database/categories'); // Importa la función getCategories desde el archivo de conexión a la base de datos de categorías
+
+// Ruta para obtener todas las categorías
+router.get('/getCategories', async (req, res) => {
+  try {
+    const categories = await getCategories();
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error('Error al obtener las categorías:', error);
+    res.status(500).send('Error al obtener las categorías');
+  }
+});
+
+// Ruta para crear una nueva categoría
+router.post('/create', async (req, res) => {
+  const { name, description } = req.body;
+
+  try {
+    const newCategory = await createCategory(name, description);
+    res.status(200).json(newCategory); // Envía la información de la nueva categoría en formato JSON
+  } catch (error) {
+    console.error('Error al crear la categoría:', error);
+    res.status(500).send('Error al crear la categoría');
+  }
+});
+
+// Ruta para eliminar una categoría
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await deleteCategory(id);
+    res.status(200).send('Categoría eliminada con éxito');
+  } catch (error) {
+    console.error('Error al eliminar la categoría:', error);
+    res.status(500).send('Error al eliminar la categoría');
+  }
+});
+
+// Ruta para actualizar una categoría
+router.put('/update/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+
+  try {
+    await updateCategory(id, name, description);
+    res.status(200).send('Categoría actualizada con éxito');
+  } catch (error) {
+    console.error('Error al actualizar la categoría:', error);
+    res.status(500).send('Error al actualizar la categoría');
+  }
+});
+
+// Ruta para obtener la información de una categoría por su ID
+router.get('/getCategoryById/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const category = await getCategoryById(id);
+    res.status(200).json(category);
+  } catch (error) {
+    console.error('Error al obtener la categoría por ID:', error);
+    res.status(500).send('Error al obtener la categoría por ID');
+  }
+});
+
+
+
+
+module.exports = router;

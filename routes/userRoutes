@@ -1,0 +1,141 @@
+const express = require('express');
+const router = express.Router();
+const { registerUser, validateUser, getUsers, deleteUserFromDatabase } = require('../database/user');
+const validator = require('validator');
+const sanitizeHtml = require('sanitize-html');
+
+// Middleware para verificar si el usuario ha iniciado sesión
+function isAuthenticated(req, res, next) {
+  const isLoggedIn = req.cookies.isLoggedIn === 'true';
+
+  if (isLoggedIn) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
+
+// Middleware para verificar si el usuario es administrador
+function isAdmin(req, res, next) {
+  const isLoggedIn = req.cookies.isLoggedIn === 'true';
+  const is_admin = req.cookies.is_admin === 'true';
+
+  //console.log('isLoggedIn:', isLoggedIn);
+  //console.log('is_admin:', is_admin);
+
+  if (isLoggedIn && is_admin) {
+    return next();
+  } else {
+    res.redirect('/index_auth');
+  }
+}
+
+
+// Ruta para registrar usuarios
+router.post('/register', async (req, res) => {
+  const { name, email, country, password, registrationDate, is_admin } = req.body;
+
+  // Validar entradas
+  if (!validator.isEmail(email)) {
+    return res.status(400).send('Dirección de correo electrónico inválida');
+  }
+
+  if (!validator.isLength(name, { min: 1, max: 255 })) {
+    return res.status(400).send('Nombre de usuario inválido');
+  }
+
+  // Desinfectar entradas
+  const sanitizedEmail = sanitizeHtml(email);
+  const sanitizedName = sanitizeHtml(name);
+  const sanitizedCountry = sanitizeHtml(country);
+
+  try {
+    await registerUser(sanitizedName, sanitizedEmail, sanitizedCountry, password, registrationDate, is_admin);
+    res.status(200).send('Usuario registrado con éxito');
+  } catch (error) {
+    console.error('Error al registrar usuario:', error);
+    res.status(500).send('Error al registrar usuario');
+  }
+});
+
+// Ruta para iniciar sesión
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await validateUser(email, password);
+    if (user) {
+      console.log('Usuario existe, sesión iniciada');
+      res.cookie('isLoggedIn', true, { httpOnly: false });
+      res.cookie('username', user.username, { httpOnly: false });
+      res.cookie('is_admin', user.is_admin == true, { httpOnly: false });
+      
+      res.status(200).json({
+        success: true,
+        message: 'Inicio de sesión exitoso',
+        isLoggedIn: true, // Agrega esta línea
+        is_admin: user.is_admin,
+      });
+    } else {
+      res.status(401).json({ message: 'Correo electrónico o contraseña incorrectos' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
+
+// Ruta para cerrar sesión
+router.get('/logout', (req, res) => {
+  res.clearCookie('isLoggedIn');
+  res.clearCookie('username');
+  res.clearCookie('is_admin');
+  res.redirect('/');
+});
+
+// Ruta para mostrar la página principal
+router.get('/', (req, res) => {
+  const isLoggedIn = req.cookies.isLoggedIn || false;
+  const username = req.cookies.username || '';
+
+  if (isLoggedIn) {
+    res.render('index_auth', { username });
+  } else {
+    res.render('index');
+  }
+});
+
+// Ruta para mostrar la página principal autenticada
+router.get('/index_auth', isAuthenticated, (req, res) => {
+    const username = req.cookies.username || '';
+    res.render('index_auth', { username });
+  });
+
+// Ruta para mostrar la página de control (panel de control)
+router.get('/control', isAuthenticated, isAdmin, (req, res) => {
+  const username = req.cookies.username || '';
+  res.render('control', { username });
+});
+
+router.get('/getUsers', isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error al obtener los usuarios:', error);
+    res.status(500).send('Error al obtener los usuarios');
+  }
+});
+
+router.delete('/deleteUser/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    await deleteUserFromDatabase(userId);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error);
+    res.status(500).send('Error al eliminar el usuario');
+  }
+});
+
+module.exports = router;

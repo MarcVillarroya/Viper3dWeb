@@ -1,0 +1,226 @@
+const express = require('express');
+const router = express.Router();
+const { getProducts, createProduct, deleteProduct, updateProduct, getProductsByCategory, getProductById} = require('../database/products');
+const { upload } = require('../multerConfig');
+const fs = require('fs');
+const path = require('path');
+const authProductRouter = express.Router();
+
+// Añadir la función deleteImage
+function deleteImage(imagePath) {
+  fs.unlink(imagePath, (error) => {
+    if (error) {
+      console.error('Error al eliminar la imagen:', error);
+    } else {
+      console.log('Imagen eliminada con éxito:', imagePath);
+    }
+  });
+}
+
+// Ruta para renderizar la página 'products.ejs'
+router.get('/', async (req, res) => {
+  const categoryId = req.query.category;
+
+  try {
+    
+    res.render('products', { categoryId });
+    
+
+  } catch (error) {
+    console.error('Error al renderizar la página de productos:', error);
+    res.status(500).send('Error al renderizar la página de productos');
+  }
+});
+
+// Ruta para renderizar la página 'products_auth.ejs'
+authProductRouter.get('/', async (req, res) => {
+  const username = req.cookies.username || '';
+  const categoryId = req.query.category;
+
+  try {
+    res.render('products_auth', { username, categoryId });
+  } catch (error) {
+    console.error('Error al renderizar la página de productos_auth:', error);
+    res.status(500).send('Error al renderizar la página de productos_auth');
+  }
+});
+
+
+
+
+
+
+// Ruta para obtener todos los productos
+router.get('/getProducts', async (req, res) => {
+  try {
+    const products = await getProducts();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error al obtener los productos:', error);
+    res.status(500).send('Error al obtener los productos');
+  }
+});
+
+// Ruta para obtener un producto por ID
+router.get('/getProductById/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await getProductById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    console.error('Error al obtener el producto por ID:', error);
+    res.status(500).send('Error al obtener el producto por ID');
+  }
+});
+
+
+
+router.get('/products/:categoryName', async (req, res) => {
+  const { categoryName } = req.params;
+
+  try {
+    const decodedCategoryName = decodeURIComponent(categoryName);
+    const products = await getProductsByCategoryByName(decodedCategoryName);
+    res.render('products', { products });
+  } catch (error) {
+    console.error('Error al obtener los productos por nombre de categoría:', error);
+    res.status(500).send('Error al obtener los productos por nombre de categoría');
+  }
+});
+
+
+
+
+// Ruta para eliminar un producto
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Consultar el producto para obtener la ruta de las imágenes y el video
+    const product = await getProductById(id);
+
+    // Eliminar las imágenes del servidor
+    for (let i = 1; i <= 5; i++) {
+      const imageKey = `image${i}`;
+      if (product[imageKey]) {
+        const imagePath = path.join(__dirname, '..', 'public', 'img_productos', product[imageKey]);
+        deleteImage(imagePath);
+      }
+    }
+
+    // Eliminar el video del servidor
+    if (product.video_link) {
+      const videoPath = path.join(__dirname, '..', 'public', 'video_productos', product.video_link);
+      deleteImage(videoPath);
+    }
+
+    // Eliminar el producto de la base de datos
+    await deleteProduct(id);
+    res.status(200).send('Producto eliminado con éxito');
+  } catch (error) {
+    console.error('Error al eliminar el producto:', error);
+    res.status(500).send('Error al eliminar el producto');
+  }
+});
+
+
+// Ruta para actualizar un producto
+router.put('/update/:id', upload.fields([{ name: 'images[]', maxCount: 5 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
+  const { id } = req.params;
+  const { product_name, product_description, price, purchase_link, category_id } = req.body;
+
+  try {
+    // Consultar el producto para obtener la ruta de las imágenes y el video
+    const oldProduct = await getProductById(id);
+
+    const images = req.files['images[]'] || [];
+    const video = req.files['video'] ? req.files['video'][0] : null;
+
+    // Eliminar las imágenes antiguas del servidor si se han subido nuevas imágenes
+    for (let i = 0; i < images.length; i++) {
+      const imageKey = `image${i + 1}`;
+      if (oldProduct[imageKey]) {
+        const imagePath = path.join(__dirname, '..', 'public', 'img_productos', oldProduct[imageKey]);
+        deleteImage(imagePath);
+      }
+    }
+
+    // Eliminar el video antiguo del servidor si se ha subido un nuevo video
+    if (video && oldProduct.video_link) {
+      const videoPath = path.join(__dirname, '..', 'public', 'video_productos', oldProduct.video_link);
+      deleteImage(videoPath);
+    }
+
+    // Actualizar el producto en la base de datos con las nuevas imágenes y video
+    await updateProduct(
+      id,
+      product_name,
+      product_description,
+      images.length > 0 && images[0] !== null ? images[0].filename : oldProduct.image1,
+      images.length > 1 && images[1] !== null ? images[1].filename : oldProduct.image2,
+      images.length > 2 && images[2] !== null ? images[2].filename : oldProduct.image3,
+      images.length > 3 && images[3] !== null ? images[3].filename : oldProduct.image4,
+      images.length > 4 && images[4] !== null ? images[4].filename : oldProduct.image5,
+      video && video !== null ? video.filename : oldProduct.video_link,
+      price,
+      purchase_link,
+      category_id
+    );
+
+    res.status(200).send('Producto actualizado con éxito');
+  } catch (error) {
+    console.error('Error al actualizar el producto:', error);
+    res.status(500).send('Error al actualizar el producto');
+  }
+});
+
+
+
+// Ruta para obtener todos los productos por categoría
+router.get('/getProductsByCategory/:categoryId', async (req, res) => {
+    const { categoryId } = req.params;
+  
+    try {
+      const products = await getProductsByCategory(categoryId);
+      res.status(200).json(products);
+    } catch (error) {
+      console.error('Error al obtener los productos por categoría:', error);
+      res.status(500).send('Error al obtener los productos por categoría');
+    }
+  });
+
+// Ruta para crear un nuevo producto (elimina la anterior)
+router.post('/create', upload.fields([{ name: 'images[]', maxCount: 25 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
+  const { product_name, product_description, price, purchase_link, category_id } = req.body;
+  
+  const images = req.files['images[]'] || [];
+  const video = req.files['video'] ? req.files['video'][0] : null;
+  
+  
+  try {
+    const newProduct = await createProduct(
+      product_name,
+      product_description,
+      images.length > 0 ? images[0].filename : null,
+      images.length > 1 ? images[1].filename : null,
+      images.length > 2 ? images[2].filename : null,
+      images.length > 3 ? images[3].filename : null,
+      images.length > 4 ? images[4].filename : null,
+      video ? video.filename : null,
+      price,
+      purchase_link,
+      category_id
+    );
+    
+    res.status(200).json(newProduct);
+  } catch (error) {
+    console.error('Error al crear el producto:', error);
+    res.status(500).send('Error al crear el producto');
+  }
+});
+  
+
+module.exports = { productRouter: router, authProductRouter }; // Modifica esta línea
+
+

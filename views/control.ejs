@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Meta requerido para la correcta visualización en dispositivos móviles y compatibilidad con navegadores -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título de la página, importante para el SEO -->
+    <title>Título de la página</title>
+
+    <!-- Descripción de la página, importante para el SEO -->
+    <meta name="description" content="Descripción breve y concisa de la página">
+
+    <!-- Palabras clave, aunque ya no son tan relevantes para el SEO, algunas herramientas aún las utilizan -->
+    <meta name="keywords" content="palabra1, palabra2, palabra3">
+
+    <!-- Enlace a la hoja de estilos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Enlace a tu hoja de estilos personalizada -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark header-gradient">
+            <div class="container">
+                <div class="logo-container">
+                    <a class="navbar-brand logo-zoom" href="index_auth">
+                        <img src="/img/logo.png" alt="Viper3D">
+                    </a>
+                    <div id="led-indicator">
+                        <i class="fas fa-user status-indicator green-icon"></i>
+                        <span class="nav-link">Hola, <%= username %></span>
+                    </div>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item nav-link " id="Logout">
+                            <span class="login-text"> Cerrar sesión </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Contenido de la página -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-dark text-light py-4">
+                <h5 class="text-center mb-4">Panel de control</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link text-light text-center" href="control_users">Usuarios</a>
+                    <a class="nav-link text-light text-center" href="control_menu">Productos</a>
+                </nav>
+            </div>
+            <div class="col-md-9">
+                <div id="users-content" class="content-section">
+					<div id="users-content" class="content-section">
+						<h2>Usuarios</h2>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nombre</th>
+									<th>Correo electrónico</th>
+									<th>País</th>
+									<th>Contraseña</th>
+									<th>Fecha de registro</th>
+									<th>tipo de usuario</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- Agrega más filas con información de usuarios aquí -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+					
+				<div id="categories-content" class="content-section">
+					<h2>Categorias</h2>
+						<div class="my-4">
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategoryModal">
+								Nueva categoría
+							</button>
+						</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Nombre</th>
+									<th scope="col">Descripción</th>
+								</tr>
+							</thead>
+							<tbody id="categoriesTableBody">
+							</tbody>
+						</table>
+						
+							<!-- Modal -->
+							<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="newCategoryModalLabel">Nueva categoría</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form id="newCategoryForm" action="/category/create" method="POST">
+												<div class="mb-3">
+													<label for="categoryName" class="form-label">Nombre de la categoría</label>
+													<input type="text" class="form-control" id="categoryName" name="name" required>
+												</div>
+												<div class="mb-3">
+													<label for="categoryDescription" class="form-label">Descripción</label>
+													<textarea class="form-control" id="categoryDescription" name="description" rows="3" required></textarea>
+												</div>
+												<button type="submit" class="btn btn-primary">Crear categoría</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Edit Category Modal -->
+							<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="editCategoryModalLabel">Editar categoría</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+									<form id="editCategoryForm" action="/category/update" method="POST">
+										<input type="hidden" id="editCategoryId" name="id" required>
+										<div class="mb-3">
+										<label for="editCategoryName" class="form-label">Nombre de la categoría</label>
+										<input type="text" class="form-control" id="editCategoryName" name="name" required>
+										</div>
+										<div class="mb-3">
+										<label for="editCategoryDescription" class="form-label">Descripción</label>
+										<textarea class="form-control" id="editCategoryDescription" name="description" rows="3" required></textarea>
+										</div>
+										<button type="submit" class="btn btn-primary">Actualizar categoría</button>
+									</form>
+									</div>
+								</div>
+								</div>
+							</div>							
+                </div>
+				<div id="products-content" class="product-section">
+					<h2>Productos</h2>
+						<div class="my-4">
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProductModal">
+								Nuevo producto
+							</button>
+						</div>
+					<div class="products-container">
+						
+					  <!-- Los productos se cargarán aquí -->
+					</div>
+				  </div>
+				  
+				
+
+
+					<!-- Modal -->
+					<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="newProductModalLabel">Nuevo producto</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							<form id="newProductForm" action="/product/create" method="POST" enctype="multipart/form-data">
+								<div class="mb-3">
+									<label for="productName" class="form-label">Nombre del producto</label>
+									<input type="text" class="form-control" id="productName" name="product_name" required>
+								  </div>
+								  <div class="mb-3">
+									<label for="productDescription" class="form-label">Descripción del producto</label>
+									<textarea class="form-control" id="productDescription" name="product_description" rows="3" required></textarea>
+								  </div>
+								  <!-- Campos para imágenes -->
+								  <div class="mb-3">
+									<label for="images1" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input type="file" class="form-control" id="images1" name="images[]" accept=".jpg, .jpeg, .png, .webp" multiple>
+								  </div>
+								  <div id="imagePreviews1" class="mb-3"></div>
+								  <div class="mb-3">
+									<label for="images2" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input type="file" class="form-control" id="images2" name="images[]" accept=".jpg, .jpeg, .png, .webp" multiple>
+								  </div>
+								  <div id="imagePreviews2" class="mb-3"></div>
+								  <div class="mb-3">
+									<label for="images3" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input type="file" class="form-control" id="images3" name="images[]" accept=".jpg, .jpeg, .png, .webp" multiple>
+								  </div>
+								  <div id="imagePreviews3" class="mb-3"></div>
+								  <div class="mb-3">
+									<label for="images4" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input type="file" class="form-control" id="images4" name="images[]" accept=".jpg, .jpeg, .png, .webp" multiple>
+								  </div>
+								  <div id="imagePreviews4" class="mb-3"></div>
+								  <div class="mb-3">
+									<label for="images5" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input type="file" class="form-control" id="images5" name="images[]" accept=".jpg, .jpeg, .png, .webp" multiple>
+								  </div>
+								  <div id="imagePreviews5" class="mb-3"></div>
+								  <!-- Campo para video -->
+								  <div class="mb-3">
+									<label for="video" class="form-label">Video del producto (formatos permitidos: .mp4, .webm)</label>
+									<input type="file" class="form-control" id="video" name="video" accept=".mp4, .webm">
+								  </div>
+								  <div id="videoPreview" class="mb-3"></div>
+								  <div class="mb-3">
+									<label for="price" class="form-label">Precio del producto</label>
+									<input type="number" step="0.01" class="form-control" id="price" name="price" required>
+								  </div>
+								  <div class="mb-3">
+									<label for="purchaseLink" class="form-label">Enlace de compra</label>
+									<input type="text" class="form-control" id="purchaseLink" name="purchase_link">
+								  </div>
+									<input type="hidden" id="categoryId" name="category_id" value="">
+
+								  <button type="submit" id="submitProductBtn" class="btn btn-primary">Crear producto</button>
+								  
+							</form>
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<!-- Modal -->
+					<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h5 class="modal-title" id="editProductModalLabel">Editar producto</h5>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							<form id="editProductForm" action="/product/update" method="POST" enctype="multipart/form-data">
+								<input type="hidden" id="editProductId" name="edit_product_id">
+								<div class="mb-3">
+									<label for="productName" class="form-label">Nombre del producto</label>
+									<input type="text" class="form-control" id="productName" name="product_name" required>
+								  </div>
+								  <div class="mb-3">
+									<label for="productDescription" class="form-label">Descripción del producto</label>
+									<textarea class="form-control" id="productDescription" name="product_description" rows="3" required></textarea>
+								  </div>
+								  <!-- Campos para imágenes -->
+								  <div class="mb-3">
+									<label for="editImages1" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input class="form-control" type="file" id="editImages1" name="image1" accept=".jpg, .jpeg, .png, .webp" multiple>
+									<div id="editImagePreviews1" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="editImages2" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input class="form-control" type="file" id="editImages2" name="image2" accept=".jpg, .jpeg, .png, .webp" multiple>
+									<div id="editImagePreviews2" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="editImages3" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input class="form-control" type="file" id="editImages3" name="image3" accept=".jpg, .jpeg, .png, .webp" multiple>
+									<div id="editImagePreviews3" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="editImages4" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input class="form-control" type="file" id="editImages4" name="image4"  accept=".jpg, .jpeg, .png, .webp" multiple>
+									<div id="editImagePreviews4" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="editImages5" class="form-label">Imágenes del producto (formatos permitidos: .jpg, .jpeg, .png, .webp)</label>
+									<input class="form-control" type="file" id="editImages5" name="image5" accept=".jpg, .jpeg, .png, .webp" multiple>
+									<div id="editImagePreviews5" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="editVideo" class="form-label">Video del producto (formatos permitidos: .mp4, .webm)</label>
+									<input class="form-control" type="file" id="editVideo" name="video" accept=".mp4, .webm">
+									<div id="editVideoPreview" class="mt-2"></div>
+								  </div>
+								  <div class="mb-3">
+									<label for="price" class="form-label">Precio del producto</label>
+									<input type="number" step="0.01" class="form-control" id="price" name="price" required>
+								  </div>
+								  <div class="mb-3">
+									<label for="purchaseLink" class="form-label">Enlace de compra</label>
+									<input type="text" class="form-control" id="purchaseLink" name="purchase_link">
+								  </div>
+									<input type="hidden" id="categoryId" name="category_id" value="">
+
+								  <button type="submit" id="submitProductBtn" class="btn btn-primary">Editar producto</button>
+								  
+							</form>
+							</div>
+						</div>
+						</div>
+					</div>
+  
+
+
+				</div>
+				  
+				</div>  
+			</div>	
+		</div>
+	</div>	
+
+	  
+	<footer class="footer-gradient py-3 footer_control">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<p>&copy; 2023 Viper3D. Todos los derechos reservados.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+    <!-- Biblioteca jQuery, requerida por Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Biblioteca Popper.js, requerida por Bootstrap para algunos componentes -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    
+    <!-- Biblioteca de JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+	<script src="/js/main_auth.js"></script>
+	<script src="/js/control.js"></script>
+	<script src="/js/control_users.js"></script>
+	<script src="/js/control_categories.js"></script>
+	<script src="/js/control_products.js"></script>
+	
+</body>
+</html>
+
