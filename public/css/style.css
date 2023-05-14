@@ -411,7 +411,7 @@ html, body {
 
 .image-section {
   background: url('/img/fotoindice.jpg') no-repeat center center/cover;
-  min-height: 40vh; /* Cambia height a min-height para permitir que el contenedor crezca */
+  min-height: 50vh; /* Cambia height a min-height para permitir que el contenedor crezca */
   color: white;
   display: flex;
 
