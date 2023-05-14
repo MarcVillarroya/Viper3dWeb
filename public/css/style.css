@@ -65,7 +65,7 @@
 
 /* Estilo para el gradiente de la cabecera */
 .header-gradient {
-    background-image: linear-gradient(to bottom, #000000, #1a237e);
+    background-image: linear-gradient(to top, #000000, #1a237e);
 }
 
 /* Estilo para ajustar el menú a la derecha */
@@ -408,6 +408,29 @@ html, body {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+.image-section {
+  background: url('/img/fotoindice.jpg') no-repeat center center/cover;
+  min-height: 40vh; /* Cambia height a min-height para permitir que el contenedor crezca */
+  color: white;
+  display: flex;
+
+
+}
+
+.content-box {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px; /* Reduce el padding para ocupar menos espacio */
+  margin-top: 100px;
+  text-align: center;
+}
+
+
+
+
+
+
+
 
   
   

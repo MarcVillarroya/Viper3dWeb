@@ -248,12 +248,6 @@ function handleCategoryClick(event) {
     
         // Agrega este controlador de eventos para inicializar Video.js cuando el modal esté completamente visible
         document.querySelector('#productModal').addEventListener('shown.bs.modal', () => {
-          if (product.video_link) {
-            const player = videojs(productVideoId);
-            player.ready(() => {
-              console.log('Video.js está listo para ser utilizado');
-            });
-          }
         });
     
       } catch (error) {
