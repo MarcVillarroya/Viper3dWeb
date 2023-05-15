@@ -38,6 +38,13 @@ app.use('/product', productRouter); // Modifica esta línea
 app.use('/products', productRouter); // Modifica esta línea
 app.use('/products_auth', authProductRouter); // Sin cambios
 
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+app.get('/contact', (req, res) => {
+  res.render('contact');
+});
 
 
 // Iniciar el servidor en el puerto 3000

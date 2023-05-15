@@ -23,6 +23,8 @@ async function loadCategories() {
       console.error('Error al cargar las categorías:', error);
     }
   }
+
+  
   
   // Llama a la función loadCategories al cargar la página
   document.addEventListener('DOMContentLoaded', async () => {
@@ -278,11 +280,29 @@ function handleCategoryClick(event) {
         const categories = await response.json();
     
         const blocksContainer = document.querySelector('.category-blocks');
-    
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const block = entry.target;
+              block.style.opacity = '0';
+              block.style.transform = 'translateY(-50px)';
+              block.style.transition = 'opacity 0.5s, transform 0.5s';
+              
+              setTimeout(() => {
+                block.style.opacity = '1';
+                block.style.transform = 'translateY(0)';
+              }, 300); // Retraso de 100ms para cada bloque
+              
+              observer.unobserve(block); // Dejar de observar el bloque después de la animación
+            }
+          });
+        });
+        
         categories.forEach((category, index) => {
           const block = document.createElement('div');
           block.className = 'category-block';
-          
+    
           // Alternar entre clases para diferentes colores de fondo
           if (index % 2 === 0) {
             block.className += ' bg-blue';
@@ -296,11 +316,15 @@ function handleCategoryClick(event) {
           block.addEventListener('click', handleCategoryClick);
     
           blocksContainer.appendChild(block);
+          
+          observer.observe(block); // Observar cada bloque agregado al contenedor
         });
       } catch (error) {
         console.error('Error al cargar los bloques de categorías:', error);
       }
     }
+    
+    
     
      
     
