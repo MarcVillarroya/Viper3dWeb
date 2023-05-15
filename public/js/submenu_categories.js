@@ -27,6 +27,7 @@ async function loadCategories() {
   // Llama a la función loadCategories al cargar la página
   document.addEventListener('DOMContentLoaded', async () => {
     await loadCategories();
+    await loadCategoryBlocks();
     const urlParams = new URLSearchParams(window.location.search);
     selectedCategoryId = urlParams.get('category');
     const page = parseInt(urlParams.get('page')) || 1;
@@ -269,6 +270,38 @@ function handleCategoryClick(event) {
         interval: false, // Esto deshabilita el cambio automático de diapositivas
       });
     });
+
+
+    async function loadCategoryBlocks() {
+      try {
+        const response = await fetch('/category/getCategories');
+        const categories = await response.json();
+    
+        const blocksContainer = document.querySelector('.category-blocks');
+    
+        categories.forEach((category, index) => {
+          const block = document.createElement('div');
+          block.className = 'category-block';
+          
+          // Alternar entre clases para diferentes colores de fondo
+          if (index % 2 === 0) {
+            block.className += ' bg-blue';
+          } else {
+            block.className += ' bg-grey';
+          }
+    
+          block.textContent = category.name;
+    
+          block.setAttribute('data-category-id', category.id);
+          block.addEventListener('click', handleCategoryClick);
+    
+          blocksContainer.appendChild(block);
+        });
+      } catch (error) {
+        console.error('Error al cargar los bloques de categorías:', error);
+      }
+    }
+    
      
     
     

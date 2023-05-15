@@ -38,7 +38,7 @@
 
 
 .footer-gradient {
-    background-image: linear-gradient(to bottom, #1a237e, #000000);
+    background-image: linear-gradient(to bottom, #000000, #1a237e);
     color: #e0e0e0; /* Establece el color del texto en el footer a un tono gris claro */
 }
 
@@ -361,9 +361,6 @@ html, body {
     display: none;
   }
 
-
-
-
   .modal-content {
     border-radius: 10px;
   }
@@ -419,25 +416,73 @@ html, body {
 }
 
 .content-box {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.9);
   padding: 20px; /* Reduce el padding para ocupar menos espacio */
   margin-top: 100px;
   text-align: center;
 }
 
 
+.container-cats {
+  /* Añade la imagen de fondo al contenedor */
+  background: url('/img/fotoindice.jpg') no-repeat center center/cover;
+  /* Ajusta la imagen de fondo para cubrir todo el contenedor */
+  background-size: cover;
+  /* Invierte la imagen de fondo */
+  transform: scaleX(-1);
+}
+
+.category-blocks {
+  /* Asegura que el contenido también se invierte para que se muestre correctamente */
+  transform: scaleX(-1);
+  /* Usamos flexbox para alinear los bloques en una columna */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre los bloques */
+}
 
 
 
+.category-block {
+  /* Ocupará el 100% del ancho del contenedor */
+  width: 50%;
+  /* bordes redondeados */
+  border-radius: 10px;
+  /* Texto en blanco */
+  color: white;
+  /* Fuerza el texto a mayúsculas */
+  text-transform: uppercase;
+  /* Tamaño del texto h3 */
+  font-size: 1.17em; /* Tamaño aproximado para h3 */
+  /* Centrado de texto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Espacio interno */
+  padding: 20px;
+  /* Asegura que el texto no se desborde */
+  overflow: hidden;
+  /* Efecto de transición para hover */
+  transition: transform 0.3s ease;
+  /* Centra el bloque en el contenedor */
+  margin: 0 auto;
+}
+
+.category-blocks h2 {
+  color: white;
+}
 
 
+.category-block:hover {
+  /* Efecto de escalado al pasar el mouse */
+  transform: scale(1.05);
+}
 
-  
-  
-  
+.bg-blue {
+  background-color: #1a237e;
+}
 
-  
-  
-  
-  
-  
+.bg-grey {
+  background-color: rgb(39, 39, 39);
+}
