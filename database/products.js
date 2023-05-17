@@ -6,10 +6,10 @@ const util = require('util');
 dotenv.config();
 // Configurar la conexión a la base de datos
 const connectionConfig = {
-  host: DB_HOST,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_DATABASE,
+  host: "containers-us-west-154.railway.app",
+  user: "root",
+  password: "OGprZgbrJS9sGg2QCTmC",
+  database: "railway",
 };
 
 // Crear la conexión a la base de datos
