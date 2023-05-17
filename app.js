@@ -49,7 +49,9 @@ app.get('/contact', (req, res) => {
 
 
 // Iniciar el servidor en el puerto 3000
-app.listen(3000, () => {
+const puerto = process.env.PORT || 3000;
+
+app.listen(puerto, () => {
   console.log('Servidor corriendo en el puerto 3000');
 });
 
