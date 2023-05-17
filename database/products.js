@@ -4,14 +4,21 @@ const dotenv = require('dotenv');
 const util = require('util');
 
 dotenv.config();
-
 // Configurar la conexión a la base de datos
 const connectionConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host:"containers-us-west-154.railway.app",
+  user: "root",
+  password: "OGprZgbrJS9sGg2QCTmC",
+  database: "railway",
+  port: "7013"
 };
+
+//const connectionConfig = {
+//  host: process.env.DB_HOST,
+//  user: process.env.DB_USER,
+//  password: process.env.DB_PASSWORD,
+//  database: process.env.DB_DATABASE,
+//};
 
 // Crear la conexión a la base de datos
 let connection;
