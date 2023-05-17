@@ -1,9 +1,10 @@
 // Importar las dependencias necesarias
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 const util = require('util');
 
 dotenv.config();
+
 // Configurar la conexión a la base de datos
 const connectionConfig = {
   host: process.env.DB_HOST,
@@ -13,19 +14,20 @@ const connectionConfig = {
 };
 
 // Crear la conexión a la base de datos
-const connection = mysql.createConnection(connectionConfig);
+let connection;
 
-// Conectar a la base de datos
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err.stack);
-    return;
-  }
+async function initializeConnection() {
+  connection = await mysql.createConnection(connectionConfig);
   console.log('Connected to the database as ID:', connection.threadId);
+  createProductsTable();
+}
+
+initializeConnection().catch(err => {
+  console.error('Error connecting to the database:', err.stack);
 });
 
 // Crear la tabla 'products' si no existe
-function createProductsTable() {
+async function createProductsTable() {
   const createTableQuery = `
   CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -44,24 +46,20 @@ function createProductsTable() {
   );
   `;
 
-  connection.query(createTableQuery, (err) => {
-    if (err) {
-      console.error('Error al crear la tabla de productos:', err.stack);
-      return;
-    }
-
+  try {
+    await connection.query(createTableQuery);
     console.log('Tabla de productos creada con éxito');
-  });
+  } catch (err) {
+    console.error('Error al crear la tabla de productos:', err.stack);
+  }
 }
 
-createProductsTable();
 
-const query = util.promisify(connection.query).bind(connection);
 
 // Obtener productos
 async function getProducts() {
   const queryText = 'SELECT * FROM products';
-  const rows = await query(queryText);
+  const [rows] = await connection.query(queryText);
   return rows;
 }
 
@@ -70,7 +68,7 @@ async function createProduct(product_name, product_description, image1, image2, 
   const queryText = 'INSERT INTO products (product_name, product_description, image1, image2, image3, image4, image5, video_link, price, purchase_link, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const args = [product_name, product_description, image1, image2, image3, image4, image5, video_link, price, purchase_link, category_id];
 
-  await query(queryText, args);
+  await connection.query(queryText, args);
 
   return {
     product_name,
@@ -92,7 +90,7 @@ async function deleteProduct(id) {
   const queryText = 'DELETE FROM products WHERE id = ?';
   const args = [id];
 
-  await query(queryText, args);
+  await connection.query(queryText, args);
 }
 
 // Actualizar un producto
@@ -113,34 +111,29 @@ async function updateProduct(id, product_name, product_description, image1, imag
     id,
   ];
 
-  await query(queryText, args);
+  await connection.query(queryText, args);
 }
 
 async function getProductsByCategory(categoryId) {
-    const queryText = 'SELECT * FROM products WHERE category_id = ?';
-    const rows = await query(queryText, [categoryId]);
-    return rows;
-  }
-
-
-  
+  const queryText = 'SELECT * FROM products WHERE category_id = ?';
+  const [rows] = await connection.query(queryText, [categoryId]);
+  return rows;
+}
 
 // getProductById function
 async function getProductById(id) {
   const queryText = 'SELECT * FROM products WHERE id = ?';
-  const rows = await query(queryText, [id]);
-  
+  const [rows] = await connection.query(queryText, [id]);
+
   if (rows.length === 0) {
     throw new Error(`No se encontró el producto con el id ${id}`);
   }
 
   return rows[0];
 }
-  
 
 // Exportar las funciones para ser utilizadas en otros archivos
 module.exports = {
-  query,
   createProductsTable,
   getProducts,
   createProduct,
