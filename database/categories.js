@@ -12,7 +12,11 @@ const connectionConfig = {
   user: "root",
   password: "OGprZgbrJS9sGg2QCTmC",
   database: "railway",
+  port: 7013,
+  // Puedes intentar añadir esto si las conexiones regulares no funcionan
+  // ssl: { rejectUnauthorized: false }
 };
+
 
 // Crear la conexión a la base de datos
 const connection = mysql.createConnection(connectionConfig);
