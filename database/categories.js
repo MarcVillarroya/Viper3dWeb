@@ -1,6 +1,5 @@
 // Importar las dependencias necesarias
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const util = require('util');
 
