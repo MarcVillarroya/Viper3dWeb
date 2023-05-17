@@ -31,6 +31,7 @@ const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/CategoryRoutes');
 const { productRouter, authProductRouter } = require('./routes/ProductRoutes'); // Modifica esta línea
 
+
 app.use('/db', dbTestRoutes);
 app.use('/', userRoutes);
 app.use('/category', categoryRoutes);
