@@ -285,6 +285,7 @@ function handleCategoryClick(event) {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const block = entry.target;
+              block.classList.add('animating'); // Añade la clase "animating"
               block.style.opacity = '0';
               block.style.transform = 'translateY(-50px)';
               block.style.transition = 'opacity 0.5s, transform 0.5s';
@@ -318,6 +319,9 @@ function handleCategoryClick(event) {
           blocksContainer.appendChild(block);
           
           observer.observe(block); // Observar cada bloque agregado al contenedor
+          block.addEventListener('transitionend', () => {
+            block.classList.remove('animating'); // Elimina la clase "animating" cuando la transición haya terminado
+          });
         });
       } catch (error) {
         console.error('Error al cargar los bloques de categorías:', error);
