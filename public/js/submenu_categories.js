@@ -29,7 +29,7 @@ async function loadCategories() {
   // Llama a la función loadCategories al cargar la página
   document.addEventListener('DOMContentLoaded', async () => {
     await loadCategories();
-    await loadCategoryBlocks();
+    //await loadCategoryBlocks();
     const urlParams = new URLSearchParams(window.location.search);
     selectedCategoryId = urlParams.get('category');
     const page = parseInt(urlParams.get('page')) || 1;
@@ -126,7 +126,8 @@ function handleCategoryClick(event) {
             
               <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
                 <h5 class="card-title">${product.product_name}</h5>
-                <p class="card-text">Precio: €${product.price.toFixed(2)}</p>
+                <p class="card-text">Precio: €${Number(product.price).toFixed(2)}</p>
+
               </div>
             `;
             
@@ -238,7 +239,7 @@ function handleCategoryClick(event) {
         productInfo.innerHTML = `
         <hr>
         <div class="d-flex justify-content-between align-items-center">
-          <h5><strong>Precio:</strong> €${product.price.toFixed(2)}</h5>
+          <h5><strong>Precio:</strong> €${Number(product.price).toFixed(2)}</h5>
           <a href="${product.purchase_link}" class="btn btn-outline-success" target="_blank">Compralo en ETSY!</a>
         </div>
         <hr>
@@ -274,59 +275,7 @@ function handleCategoryClick(event) {
     });
 
 
-    async function loadCategoryBlocks() {
-      try {
-        const response = await fetch('/category/getCategories');
-        const categories = await response.json();
     
-        const blocksContainer = document.querySelector('.category-blocks');
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const block = entry.target;
-              block.classList.add('animating'); // Añade la clase "animating"
-              block.style.opacity = '0';
-              block.style.transform = 'translateY(-50px)';
-              block.style.transition = 'opacity 0.5s, transform 0.5s';
-              
-              setTimeout(() => {
-                block.style.opacity = '1';
-                block.style.transform = 'translateY(0)';
-              }, 300); // Retraso de 100ms para cada bloque
-              
-              observer.unobserve(block); // Dejar de observar el bloque después de la animación
-            }
-          });
-        });
-        
-        categories.forEach((category, index) => {
-          const block = document.createElement('div');
-          block.className = 'category-block';
-    
-          // Alternar entre clases para diferentes colores de fondo
-          if (index % 2 === 0) {
-            block.className += ' bg-blue';
-          } else {
-            block.className += ' bg-grey';
-          }
-    
-          block.textContent = category.name;
-    
-          block.setAttribute('data-category-id', category.id);
-          block.addEventListener('click', handleCategoryClick);
-    
-          blocksContainer.appendChild(block);
-          
-          observer.observe(block); // Observar cada bloque agregado al contenedor
-          block.addEventListener('transitionend', () => {
-            block.classList.remove('animating'); // Elimina la clase "animating" cuando la transición haya terminado
-          });
-        });
-      } catch (error) {
-        console.error('Error al cargar los bloques de categorías:', error);
-      }
-    }
     
     
     
