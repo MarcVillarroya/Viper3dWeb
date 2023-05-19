@@ -21,14 +21,6 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.card.product-card {
-  transition: transform 0.2s; /* Animación suave */
-}
-
-.card.product-card:hover {
-  transform: scale(1.1); /* Escala el elemento a un 110% de su tamaño original */
-}
-
 .card-footer {
   padding: 1rem;
   
@@ -498,19 +490,15 @@ html, body {
   margin: 0 auto;
 }
 
-
 .category-blocks h3 {
   color: white;
 }
 
 
-
-
-.category-block:not(.animating):hover {
-  transform: scale(1.1) !important;
+.category-block:hover {
+  /* Efecto de escalado al pasar el mouse */
+  transform: scale(1.05);
 }
-
-
 
 .bg-blue {
   background-color: #1a237e;

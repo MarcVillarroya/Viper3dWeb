@@ -1,42 +1,35 @@
 // Importar las dependencias necesarias
-const mysql = require('mysql2/promise');
-const bcrypt = require('bcryptjs');
+const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
+const util = require('util');
+
 
 // El resto del código del archivo sigue aquí
 
 dotenv.config();
 // Configurar la conexión a la base de datos
 const connectionConfig = {
-  host:"containers-us-west-154.railway.app",
-  user: "root",
-  password: "OGprZgbrJS9sGg2QCTmC",
-  database: "railway",
-  port: "7013"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 };
 
-//const connectionConfig = {
-//  host: process.env.DB_HOST,
-//  user: process.env.DB_USER,
-//  password: process.env.DB_PASSWORD,
-//  database: process.env.DB_DATABASE,
-//};
-
 // Crear la conexión a la base de datos
-let connection;
+const connection = mysql.createConnection(connectionConfig);
 
-async function initializeConnection() {
-  connection = await mysql.createConnection(connectionConfig);
+// Conectar a la base de datos
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err.stack);
+    return;
+  }
   console.log('Connected to the database as ID:', connection.threadId);
-  createUsersTable().catch(console.error);
-}
-
-initializeConnection().catch(err => {
-  console.error('Error connecting to the database:', err.stack);
 });
 
 // Crear la tabla 'users' si no existe
-async function createUsersTable() {
+function createUsersTable() {
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,17 +42,19 @@ async function createUsersTable() {
     );
   `;
 
-  try {
-    await connection.query(createTableQuery);
+  connection.query(createTableQuery, (err) => {
+    if (err) {
+      console.error('Error al crear la tabla de usuarios:', err.stack);
+      return;
+    }
+
     console.log('Tabla de usuarios creada con éxito');
     createDefaultAdminUser();
-  } catch (err) {
-    console.error('Error al crear la tabla de usuarios:', err.stack);
-  }
+  });
 }
 
 // Crear el usuario administrador por defecto si no existe
-async function createDefaultAdminUser() {
+function createDefaultAdminUser() {
   const defaultAdmin = {
     username: 'admin',
     email: 'admin@example.com',
@@ -69,33 +64,44 @@ async function createDefaultAdminUser() {
   };
 
   const findAdminQuery = 'SELECT * FROM users WHERE username = ?';
-  const [results] = await connection.query(findAdminQuery, [defaultAdmin.username]);
-
-  if (results.length === 0) {
-    try {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(defaultAdmin.password, saltRounds);
-
-      const insertAdminQuery = 'INSERT INTO users (username, email, country, password, registration_date, is_admin) VALUES (?, ?, ?, ?, ?, ?)';
-      await connection.query(
-        insertAdminQuery,
-        [
-          defaultAdmin.username,
-          defaultAdmin.email,
-          defaultAdmin.country,
-          hashedPassword,
-          new Date(),
-          defaultAdmin.isAdmin,
-        ]
-      );
-
-      console.log('Usuario administrador creado con éxito');
-    } catch (error) {
-      console.error('Error al encriptar la contraseña:', error.stack);
+  connection.query(findAdminQuery, [defaultAdmin.username], async (err, results) => {
+    if (err) {
+      console.error('Error al buscar usuario administrador:', err.stack);
+      return;
     }
-  } else {
-    console.log('El usuario administrador ya existe');
-  }
+
+    if (results.length === 0) {
+      try {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(defaultAdmin.password, saltRounds);
+
+        const insertAdminQuery = 'INSERT INTO users (username, email, country, password, registration_date, is_admin) VALUES (?, ?, ?, ?, ?, ?)';
+        connection.query(
+          insertAdminQuery,
+          [
+            defaultAdmin.username,
+            defaultAdmin.email,
+            defaultAdmin.country,
+            hashedPassword,
+            new Date(),
+            defaultAdmin.isAdmin,
+          ],
+          (err) => {
+            if (err) {
+              console.error('Error al crear usuario administrador:', err.stack);
+              return;
+            }
+
+            console.log('Usuario administrador creado con éxito');
+          }
+        );
+      } catch (error) {
+        console.error('Error al encriptar la contraseña:', error.stack);
+      }
+    } else {
+      console.log('El usuario administrador ya existe');
+    }
+  });
 }
 
 // Registrar un nuevo usuario
@@ -107,19 +113,32 @@ async function registerUser(name, email, country, password, registrationDate, is
     VALUES (?, ?, ?, ?, ?, 0);
   `;
 
-  try {
-    await connection.query(insertUserQuery, [name, email, country, hashedPassword, registrationDate, isAdmin]);
-    console.log('Usuario registrado con éxito.');
-  } catch (err) {
-    console.error('Error al registrar usuario:', err);
-    throw err;
-  }
+  return new Promise((resolve, reject) => {
+    connection.query(insertUserQuery, [name, email, country, hashedPassword, registrationDate, isAdmin], (err, result) => {
+     
+
+      if (err) {
+        console.error('Error al registrar usuario:', err);
+        reject(err);
+        return;
+      }
+
+      console.log('Usuario registrado con éxito. ID:', result.insertId);
+      resolve();
+    });
+  });
 }
 
+// Crear la tabla 'users' al iniciar el módulo
+createUsersTable();
+
 //login de usuario
+
+const query = util.promisify(connection.query).bind(connection);
+
 async function validateUser(email, providedPassword) {
   try {
-    const [result] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
+    const result = await query('SELECT * FROM users WHERE email = ?', [email]);
 
     if (result.length > 0) {
       const user = result[0];
@@ -139,24 +158,29 @@ async function validateUser(email, providedPassword) {
 
 // getUsers function
 async function getUsers() {
-  const [rows] = await connection.query('SELECT * FROM users');
+  const queryText = 'SELECT * FROM users';
+  const rows = await query(queryText);
   return rows;
 }
 
 async function deleteUserFromDatabase(userId) {
   const deleteQuery = 'DELETE FROM users WHERE id = ?';
-  await connection.query(deleteQuery, [userId]);
+  await query(deleteQuery, [userId]);
 }
 
 
 // Exportar las funciones para ser utilizadas en otros archivos
+
 module.exports = {
+  query,
   createUsersTable,
   createDefaultAdminUser,
   registerUser,
   validateUser,
   getUsers,
   deleteUserFromDatabase,
-};
+  };
 
-module.exports.connection = connection;
+  module.exports.connection = connection;
+
+
