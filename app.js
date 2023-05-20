@@ -38,7 +38,6 @@ app.use('/product', productRouter); // Modifica esta línea
 app.use('/products', productRouter); // Modifica esta línea
 app.use('/products_auth', authProductRouter); // Sin cambios
 
-
 app.get('/about', (req, res) => {
   res.render('about');
 });
@@ -49,10 +48,9 @@ app.get('/contact', (req, res) => {
 
 
 // Iniciar el servidor en el puerto 3000
-app.listen("https://viper3dweb-production.up.railway.app", () => {
-  console.log(`Servidor corriendo`);
+app.listen(3000, () => {
+  console.log('Servidor corriendo en el puerto 3000');
 });
-
 
 
 
