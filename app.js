@@ -49,7 +49,7 @@ app.get('/contact', (req, res) => {
 
 
 // Iniciar el servidor en el puerto 3000
-app.listen(viper3dweb-production.up.railway.app, () => {
+app.listen("https://viper3dweb-production.up.railway.app", () => {
   console.log(`Servidor corriendo`);
 });
 
