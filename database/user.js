@@ -8,11 +8,11 @@ dotenv.config();
 
 // Configurar la conexión a la base de datos
 const connectionConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  dbport: process.env.DB_PORT,
+  host: "containers-us-west-154.railway.app",
+  user: "root",
+  password: "OGprZgbrJS9sGg2QCTmC",
+  database: "railway",
+  dbport: "7013",
 };
 
 let connection;
