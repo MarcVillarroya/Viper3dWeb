@@ -38,6 +38,7 @@ app.use('/product', productRouter); // Modifica esta línea
 app.use('/products', productRouter); // Modifica esta línea
 app.use('/products_auth', authProductRouter); // Sin cambios
 
+
 app.get('/about', (req, res) => {
   res.render('about');
 });
