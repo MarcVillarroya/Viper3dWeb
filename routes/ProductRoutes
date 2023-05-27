@@ -45,11 +45,6 @@ authProductRouter.get('/', async (req, res) => {
   }
 });
 
-
-
-
-
-
 // Ruta para obtener todos los productos
 router.get('/getProducts', async (req, res) => {
   try {

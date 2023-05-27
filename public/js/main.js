@@ -184,6 +184,9 @@ function setupRegisterFormValidation() {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
         alert("Usuario registrado con éxito");
+        // Si el registro es exitoso, cierra el modal y redirige a index_auth.ejs
+        $('#loginModal').modal('hide'); // Reemplace 'loginModal' con el ID de su modal si es diferente
+        window.location.href = "/index_auth";
       } else if (xhr.readyState === 4) {
         alert("Error al registrar el usuario");
       }

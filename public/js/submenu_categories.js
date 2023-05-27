@@ -28,6 +28,7 @@ async function loadCategories() {
 document.addEventListener('DOMContentLoaded', async () => {
   await loadCategories();
   await loadCategoryBlocks();
+  await loadLatestProducts();
   const urlParams = new URLSearchParams(window.location.search);
   selectedCategoryId = urlParams.get('category');
   const page = parseInt(urlParams.get('page')) || 1;
@@ -113,7 +114,6 @@ async function loadProductsByCategory(categoryId, page) {
       col.style.animationDelay = `${(paginatedProducts.length - 1 - index) * 100}ms`;
       const card = document.createElement('div');
       card.className = 'card product-card d-flex flex-column';
-      card.style.border = '1px solid #1a237e';
       card.style.borderRadius = '10px';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
@@ -126,7 +126,7 @@ async function loadProductsByCategory(categoryId, page) {
       
         <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
           <h5 class="card-title">${product.product_name}</h5>
-          <p class="card-text">Precio: €${Number(product.price).toFixed(2)}</p>
+          <p class="card-text">€${Number(product.price).toFixed(2)}</p>
         </div>
       `;
 
@@ -275,54 +275,70 @@ async function showProductModal(productId) {
   }
 }
 
+let categoriesVisible = false;
+
 async function loadCategoryBlocks() {
   try {
     const response = await fetch('/category/getCategories');
     const categories = await response.json();
+    const blocksContainer = document.querySelector('#categorias'); // Asegúrate de que este es el correcto selector
 
-    const blocksContainer = document.querySelector('.category-blocks');
-
-    if (blocksContainer) { // Verificar si el contenedor existe
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const block = entry.target;
-            block.classList.add('animating');
-            block.style.opacity = '0';
-            block.style.transform = 'translateY(-50px)';
-            block.style.transition = 'opacity 0.5s, transform 0.5s';
-
-            setTimeout(() => {
-              block.style.opacity = '1';
-              block.style.transform = 'translateY(0)';
-            }, 300);
-
-            observer.unobserve(block);
-          }
-        });
-      });
-
-      categories.forEach((category, index) => {
-        const block = document.createElement('div');
-        block.className = 'category-block';
-
-        // Alternar entre clases para diferentes colores de fondo
-        block.className += index % 2 === 0 ? ' bg-blue' : ' bg-grey';
-
-        block.textContent = category.name;
-
-        block.setAttribute('data-category-id', category.id);
-        block.addEventListener('click', handleCategoryClick);
-
-        blocksContainer.appendChild(block);
-
-        observer.observe(block);
-        block.addEventListener('transitionend', () => {
-          block.classList.remove('animating');
-        });
-      });
-    }
+    categories.forEach((category, index) => {
+      const block = document.createElement('div');
+      block.className = 'category-block';
+      block.className += index % 2 === 0 ? ' bg-blue' : ' bg-grey';
+      block.textContent = category.name;
+      block.setAttribute('data-category-id', category.id);
+      block.addEventListener('click', handleCategoryClick);
+      blocksContainer.appendChild(block); // Añadir el bloque al contenedor
+    });
+    
   } catch (error) {
     console.error('Error al cargar los bloques de categorías:', error);
   }
 }
+
+async function loadLatestProducts() {
+  try {
+    const response = await fetch('products/getProducts');
+    const products = await response.json();
+
+    const latestProducts = products.slice(-4);
+    const productsContainer = document.querySelector('#novedades');
+    productsContainer.innerHTML = '';
+
+    const row = document.createElement('div');
+    row.className = 'row';
+
+    latestProducts.forEach((product) => {
+      const col = document.createElement('div');
+      col.className = 'col-lg-3 col-md-3 col-6';
+      
+      const productCard = document.createElement('div');
+      productCard.className = 'card product-card d-flex flex-column';
+      productCard.style.borderRadius = '10px';
+      productCard.innerHTML = `
+        <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
+          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
+        </div>
+        <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+          <h5 class="card-title card-title-one-line">${product.product_name}</h5>
+          <p class="card-text">€${Number(product.price).toFixed(2)}</p>
+        </div>
+      `;
+      col.appendChild(productCard);
+      row.appendChild(col);
+    });
+
+    productsContainer.appendChild(row);
+    
+  } catch (error) {
+    console.error('Error al cargar los productos más recientes:', error);
+  }
+}
+
+
+
+
+
+
