@@ -46,6 +46,9 @@ app.get('/contact', (req, res) => {
   res.render('contact');
 });
 
+app.get('/tienda', (req, res) => {
+  res.render('tienda');
+});
 
 // Iniciar el servidor en el puerto 3000
 app.listen(3000, () => {

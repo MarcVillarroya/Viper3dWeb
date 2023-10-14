@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadCategories();
   await loadCategoryBlocks();
   await loadLatestProducts();
+  await mostrarProductosDestacados();
+
   const urlParams = new URLSearchParams(window.location.search);
   selectedCategoryId = urlParams.get('category');
   const page = parseInt(urlParams.get('page')) || 1;
@@ -336,6 +338,50 @@ async function loadLatestProducts() {
     console.error('Error al cargar los productos más recientes:', error);
   }
 }
+
+async function mostrarProductosDestacados() {
+  const idsDestacados = [68, 72, 82, 70];  // Cambia estos números a los IDs que quieras destacar
+
+  let contenedorDestacados = document.getElementById("destacados");
+  contenedorDestacados.innerHTML = '';  // Limpiar el contenedor en caso de que ya contenga productos
+
+  const row = document.createElement('div');
+  row.className = 'row';
+
+  for (let id of idsDestacados) {
+      try {
+        
+          let producto = await fetchProductById(id);
+
+          const col = document.createElement('div');
+          col.className = 'col-lg-3 col-md-3 col-6';
+
+          const productCard = document.createElement('div');
+          productCard.className = 'card product-card d-flex flex-column mb-5';
+          productCard.style.borderRadius = '10px';
+          productCard.innerHTML = `
+              <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
+                  <img src="/img_productos/${producto.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${producto.product_name}">
+              </div>
+              <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                  <h5 class="card-title card-title-one-line">${producto.product_name}</h5>
+                  <p class="card-text">€${Number(producto.price).toFixed(2)}</p>
+              </div>
+          `;
+
+          col.appendChild(productCard);
+          row.appendChild(col);
+
+      } catch (error) {
+          console.error('Error al obtener y mostrar el producto destacado:', error);
+      }
+  }
+
+  contenedorDestacados.appendChild(row);
+}
+
+
+
 
 
 

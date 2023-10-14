@@ -163,7 +163,7 @@ async function fetchProductsByCategory(categoryId) {
         </div>
 
         <div class="card-body">
-          <h5 class="card-title">${product.product_name}</h5>
+        <h5 class="card-title">${product.product_name} (ID: ${product.id})</h5>
           <p class="card-text">Precio: $${product.price}</p>
           <button type="button" class="btn btn-danger delete-product-btn" data-product-id="${product.id}">Eliminar</button>
           <button type="button" class="btn btn-primary edit-product-btn" data-product-id="${product.id}">Editar</button>
