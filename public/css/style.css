@@ -536,6 +536,12 @@ html, body {
   background-color: #1717178e;
   overflow-y: auto;
 }
+
+.muestra-cat{
+  background-color: black;
+  overflow-y: auto;
+}
+
 .adaptive-container {
   display: flex;
   flex-direction: column;
@@ -576,6 +582,11 @@ html, body {
   margin-left: auto;
   margin-right: auto;
 }
+
+
+
+
+
 
 
 

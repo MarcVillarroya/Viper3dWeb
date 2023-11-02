@@ -27,9 +27,6 @@ async function loadCategories() {
 // Llama a la función loadCategories al cargar la página
 document.addEventListener('DOMContentLoaded', async () => {
   await loadCategories();
-  //await loadCategoryBlocks();
-  //await loadLatestProducts();
-  //await mostrarProductosDestacados();
 
   const urlParams = new URLSearchParams(window.location.search);
   selectedCategoryId = urlParams.get('category');
@@ -74,7 +71,7 @@ function handleCategoryClick(event) {
   window.location.href = `${url}?${params}`;
 }
 
-let selectedCategoryId = null;
+
 
 const itemsPerPage = 12;
 
@@ -279,106 +276,7 @@ async function showProductModal(productId) {
 
 let categoriesVisible = false;
 
-async function loadCategoryBlocks() {
-  try {
-    const response = await fetch('/category/getCategories');
-    const categories = await response.json();
-    const blocksContainer = document.querySelector('#categorias'); // Asegúrate de que este es el correcto selector
 
-    categories.forEach((category, index) => {
-      const block = document.createElement('div');
-      block.className = 'category-block';
-      block.className += index % 2 === 0 ? ' bg-blue' : ' bg-grey';
-      block.textContent = category.name;
-      block.setAttribute('data-category-id', category.id);
-      block.addEventListener('click', handleCategoryClick);
-      blocksContainer.appendChild(block); // Añadir el bloque al contenedor
-    });
-    
-  } catch (error) {
-    console.error('Error al cargar los bloques de categorías:', error);
-  }
-}
-
-async function loadLatestProducts() {
-  try {
-    const response = await fetch('products/getProducts');
-    const products = await response.json();
-
-    const latestProducts = products.slice(-4);
-    const productsContainer = document.querySelector('#novedades');
-    productsContainer.innerHTML = '';
-
-    const row = document.createElement('div');
-    row.className = 'row';
-
-    latestProducts.forEach((product) => {
-      const col = document.createElement('div');
-      col.className = 'col-lg-3 col-md-3 col-6';
-      
-      const productCard = document.createElement('div');
-      productCard.className = 'card product-card d-flex flex-column';
-      productCard.style.borderRadius = '10px';
-      productCard.innerHTML = `
-        <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
-        </div>
-        <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-          <h5 class="card-title card-title-one-line">${product.product_name}</h5>
-          <p class="card-text">€${Number(product.price).toFixed(2)}</p>
-        </div>
-      `;
-      col.appendChild(productCard);
-      row.appendChild(col);
-    });
-
-    productsContainer.appendChild(row);
-    
-  } catch (error) {
-    console.error('Error al cargar los productos más recientes:', error);
-  }
-}
-
-async function mostrarProductosDestacados() {
-  const idsDestacados = [68, 72, 82, 70];  // Cambia estos números a los IDs que quieras destacar
-
-  let contenedorDestacados = document.getElementById("destacados");
-  contenedorDestacados.innerHTML = '';  // Limpiar el contenedor en caso de que ya contenga productos
-
-  const row = document.createElement('div');
-  row.className = 'row';
-
-  for (let id of idsDestacados) {
-      try {
-        
-          let producto = await fetchProductById(id);
-
-          const col = document.createElement('div');
-          col.className = 'col-lg-3 col-md-3 col-6';
-
-          const productCard = document.createElement('div');
-          productCard.className = 'card product-card d-flex flex-column mb-5';
-          productCard.style.borderRadius = '10px';
-          productCard.innerHTML = `
-              <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-                  <img src="/img_productos/${producto.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${producto.product_name}">
-              </div>
-              <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                  <h5 class="card-title card-title-one-line">${producto.product_name}</h5>
-                  <p class="card-text">€${Number(producto.price).toFixed(2)}</p>
-              </div>
-          `;
-
-          col.appendChild(productCard);
-          row.appendChild(col);
-
-      } catch (error) {
-          console.error('Error al obtener y mostrar el producto destacado:', error);
-      }
-  }
-
-  contenedorDestacados.appendChild(row);
-}
 
 
 
