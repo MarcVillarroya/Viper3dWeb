@@ -25,7 +25,17 @@
 .card.product-card {
   transition: transform 0.2s;
 }
+/* Estilo base de la tarjeta del producto */
+.card.product-card {
+  transition: box-shadow 0.3s ease-in-out; /* Suavizado para el efecto de transición */
+}
 
+/* Efecto de neón al pasar el ratón por encima */
+.card.product-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5), /* Resplandor exterior azul */
+               0 0 20px rgba(0, 0, 255, 0.5), /* Resplandor exterior más grande */
+               0 0 30px rgba(0, 0, 255, 0.7); /* Resplandor exterior aún más grande */
+}
 
 
 /* Estilo para el pie de página */
@@ -209,14 +219,14 @@ html, body {
 
 /* Estilo para el título de la descripción superpuesta */
 .card-description h4 {
-  font-size: 1.5rem; /* Tamaño de fuente más pequeño para ajustar en pantallas pequeñas */
+  font-size: 1.2rem; /* Tamaño de fuente más pequeño para ajustar en pantallas pequeñas */
   margin-bottom: 10px;
   word-wrap: break-word; /* Permite que las palabras largas se rompan y se ajusten al ancho del contenedor */
 }
 
 /* Estilo para el texto de la descripción superpuesta */
 .card-description p {
-  font-size: 1rem; /* Tamaño de fuente más pequeño para ajustar en pantallas pequeñas */
+  font-size: 1.8; /* Tamaño de fuente más pequeño para ajustar en pantallas pequeñas */
   word-wrap: break-word; /* Permite que las palabras largas se rompan y se ajusten al ancho del contenedor */
 }
 
@@ -585,6 +595,97 @@ html, body {
 
 
 
+
+/* Estilo global para la lista con ticks */
+ul.checklist {
+  list-style: none; /* Elimina el estilo de lista predeterminado */
+  padding-left: 0; /* Elimina el padding predeterminado */
+}
+
+ul.checklist li {
+  position: relative; /* Permite posicionar el pseudo-elemento respecto a este elemento */
+  padding-left: 25px; /* Espacio para el ícono de tick */
+  margin-bottom: 10px; /* Opcional: Espacio entre los elementos de la lista */
+}
+
+ul.checklist li::before {
+  content: '✔'; /* Carácter de tick */
+  position: absolute; /* Posicionamiento absoluto respecto al li */
+  left: 0; /* Alinea al principio de la lista */
+  color: blue; /* Color del tick */
+  font-size: 18px; /* Tamaño del tick */
+  line-height: 1; /* Altura de línea para centrar verticalmente el tick si es necesario */
+}
+
+
+.social-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  background-color: #000;
+  border: none;
+}
+
+.card-img-wrapper {
+  margin-right: 15px; /* Asegura un espacio entre la imagen y el texto */
+}
+
+.platform-logo {
+  width: 250px; /* Ajusta este valor para el tamaño de la imagen del logo de la plataforma */
+  height: auto; /* Esto mantendrá la relación de aspecto de la imagen */
+}
+
+
+.account-logo {
+  width: 80px; /* Ajusta este valor para el tamaño de la imagen del logo de la cuenta */
+  height: auto;
+  margin-bottom: 10px; /* Espacio entre el logo de la cuenta y el texto */
+  border-radius: 25%;
+}
+
+.social-card .card-body {
+  flex: 1;
+  text-align: center;
+}
+
+.card-title {
+  margin-top: 0; /* Opcional: quita el margen superior si es necesario */
+}
+
+
+
+
+/* Estilos por defecto para pantallas grandes */
+.card-title {
+  font-size: 1.25rem; /* Tamaño original para pantallas grandes */
+}
+
+.card-text {
+  font-size: 1rem; /* Tamaño original para pantallas grandes */
+}
+
+/* Media query para pantallas de tabletas */
+@media (max-width: 768px) {
+  .card-title {
+      font-size: 1rem; /* Tamaño más pequeño para pantallas medianas */
+  }
+
+  .card-text {
+      font-size: 0.85rem; /* Tamaño más pequeño para pantallas medianas */
+  }
+}
+
+/* Media query para pantallas de móviles */
+@media (max-width: 576px) {
+  .card-title {
+      font-size: 0.9rem; /* Tamaño más pequeño para pantallas pequeñas */
+  }
+
+  .card-text {
+      font-size: 0.75rem; /* Tamaño más pequeño para pantallas pequeñas */
+  }
+}
 
 
 
