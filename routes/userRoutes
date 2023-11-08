@@ -33,7 +33,7 @@ function isAdmin(req, res, next) {
 
 // Ruta para registrar usuarios
 router.post('/register', async (req, res) => {
-  const { name, email, country, password, registrationDate, is_admin } = req.body;
+  const { name, email, country, password, is_admin } = req.body;
 
   // Validar entradas
   if (!validator.isEmail(email)) {
@@ -50,13 +50,14 @@ router.post('/register', async (req, res) => {
   const sanitizedCountry = sanitizeHtml(country);
 
   try {
-    await registerUser(sanitizedName, sanitizedEmail, sanitizedCountry, password, registrationDate, is_admin);
+    await registerUser(sanitizedName, sanitizedEmail, sanitizedCountry, password, is_admin);
     res.status(200).send('Usuario registrado con éxito');
   } catch (error) {
     console.error('Error al registrar usuario:', error);
     res.status(500).send('Error al registrar usuario');
   }
 });
+
 
 // Ruta para iniciar sesión
 router.post('/login', async (req, res) => {
