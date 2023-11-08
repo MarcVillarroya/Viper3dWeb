@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Meta requerido para la correcta visualización en dispositivos móviles y compatibilidad con navegadores -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título de la página, importante para el SEO -->
+    <title>Viper3D -- Impresiones 3D</title>
+    
+    <!-- Descripción de la página, importante para el SEO -->
+    <meta name="description" content="En Viper3D, fusionamos artesanía y tecnología avanzada para crear objetos únicos impresos en 3D, necesitas un regalo para esa persona especial?
+	Explora nuestra selecta colección de archivos STL listos para descargar y objetos artesanales listos para embellecer tu espacio. 
+	Sumérgete en nuestro mundo con videos educativos y entretenidos, y mantente al día con las últimas tendencias e innovaciones en impresión 3D a través de nuestro blog.
+	Únete a nuestra comunidad para recibir notificaciones exclusivas y ser parte del futuro del diseño y la fabricación.">
+
+    
+    <!-- Palabras clave, aunque ya no son tan relevantes para el SEO, algunas herramientas aún las utilizan -->
+    <meta name="keywords" content="Impresiones 3D personalizadas, Regalos 3D únicos, Diseños STL descargables, Objetos impresos en 3D,
+	 Regalos para el Día de la Madre en 3D, Decoración navideña 3D, Videos de impresión 3D, Blog de impresión 3D, Tutoriales de impresión 3D,
+	Comunidad de impresión 3D, Arte en 3D, Modelos 3D personalizables, Comprar STL, Archivos STL premium, Regalos originales, Ideas de regalos 3D, Artesanía en 3D, Viper3D, ender3, prusa, cura, regalos para novios">
+
+    
+    <!-- Enlace a la hoja de estilos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
+    
+    <!-- Enlace a tu hoja de estilos personalizada -->
+    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+	<link rel="icon" type="image/png" href="/img/logo.png">
+
+</head>
+
+<body>
+    <!-- Contenido de la página -->
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark header-gradient">
+		  <div class="container">
+			<div class="logo-container">
+				<a class="navbar-brand logo-zoom" href="index_auth">
+				  <img src="/img/logo.png" alt="Viper3D">
+				</a>
+				<div id="led-indicator">
+				  <i class="fas fa-user status-indicator green-icon"></i>
+				  <span class="nav-link">Hola, <%= username %></span>
+				</div>
+			</div>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+			  <ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/tienda_auth">Tienda</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/servicios_auth">Servicios</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/about_auth">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/contact_Auth">Contacto</a>
+				</li>
+				<li class="nav-item nav-link " id="Logout">
+					<span class="login-text"> Cerrar sesión </span>
+				</li>
+			  </ul>
+			</div>
+		  </div>
+		</nav>
+	  </header>
+
+      <!-- Contenido Contacto -->
+<div class="container my-5">
+    <h1 class="text-left mb-5">Contáctanos</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h2>Información de contacto</h2>
+            <p>Si tienes alguna pregunta, comentario o solicitud, no dudes en ponerte en contacto con nosotros. Nuestro equipo de atención al cliente está disponible para ayudarte.</p>
+            <p>
+                <strong>Email:</strong><br> info.viper3d@gmail.com
+				<br>
+				<strong>Redes sociales:</strong> 
+				<ul class="list-unstyled list-inline text">
+					<li class="list-inline-item">
+						<a href="https://www.youtube.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-youtube"></i>
+						</a>
+					</li>
+					<li class="list-inline-item">
+						<a href="https://www.tiktok.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-tiktok"></i>
+						</a>
+					</li>
+					<li class="list-inline-item">
+						<a href="https://www.instagram.com/viper3doficial/" class="social-icon" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</li>
+					<li class="list-inline-item">
+						<a href="https://www.facebook.com/profile.php?id=61552051646865" class="social-icon" target="_blank" rel="noopener noreferrer">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+					</li>
+				</ul>
+            </p>
+            <h3>Horario de atención</h3>
+            <p>Lunes a Viernes: 9:00 a.m. a 6:00 p.m.<br>
+               Sábados: 10:00 a.m. a 4:00 p.m.<br>
+               Domingos: Cerrado
+            </p>
+        </div>
+        <div class="col-md-6">
+			<img src="img/imagencontacto.webp" alt="Foto de inicio Viper3D" class="img-fluid">
+        </div>
+    </div>
+</div>
+<!-- Fin Contenido -->
+
+
+      <footer class="footer-gradient py-3">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <h5>Acerca de Viper3D</h5>
+                    <p>Somos una iniciativa que busca integrar la impresión 3D en la vida cotidiana a través de diseños STL listos para imprimir en casa y una variedad de regalos y decoraciones.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h5>Enlaces rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/tienda_auth">Tienda</a></li>
+                        <li><a href="/servicios_auth">Servicios</a></li>
+                        <li><a href="/about_auth">Sobre Nosotros</a></li>
+                        <li><a href="/contact_auth">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h5>Síguenos en redes sociales</h5>
+                    <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item">
+                            <a href="https://www.youtube.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.tiktok.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com/viper3doficial/" class="social-icon" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com/profile.php?id=61552051646865" class="social-icon" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>&copy; 2023 Viper3D. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Biblioteca jQuery, requerida por Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Biblioteca Popper.js, requerida por Bootstrap para algunos componentes -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    
+    <!-- Biblioteca de JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    
+    <script src="/js/main_auth.js"></script>
+
+</body>
+</html>     

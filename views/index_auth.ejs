@@ -10,17 +10,27 @@
     <title>Viper3D -- Impresiones 3D</title>
     
     <!-- Descripción de la página, importante para el SEO -->
-    <meta name="description" content="Descripción breve y concisa de la página">
+    <meta name="description" content="En Viper3D, fusionamos artesanía y tecnología avanzada para crear objetos únicos impresos en 3D, necesitas un regalo para esa persona especial?
+	Explora nuestra selecta colección de archivos STL listos para descargar y objetos artesanales listos para embellecer tu espacio. 
+	Sumérgete en nuestro mundo con videos educativos y entretenidos, y mantente al día con las últimas tendencias e innovaciones en impresión 3D a través de nuestro blog.
+	Únete a nuestra comunidad para recibir notificaciones exclusivas y ser parte del futuro del diseño y la fabricación.">
+
     
     <!-- Palabras clave, aunque ya no son tan relevantes para el SEO, algunas herramientas aún las utilizan -->
-    <meta name="keywords" content="palabra1, palabra2, palabra3">
+    <meta name="keywords" content="Impresiones 3D personalizadas, Regalos 3D únicos, Diseños STL descargables, Objetos impresos en 3D,
+	 Regalos para el Día de la Madre en 3D, Decoración navideña 3D, Videos de impresión 3D, Blog de impresión 3D, Tutoriales de impresión 3D,
+	Comunidad de impresión 3D, Arte en 3D, Modelos 3D personalizables, Comprar STL, Archivos STL premium, Regalos originales, Ideas de regalos 3D, Artesanía en 3D, Viper3D, ender3, prusa, cura, regalos para novios">
+
     
     <!-- Enlace a la hoja de estilos de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
     
     <!-- Enlace a tu hoja de estilos personalizada -->
     <link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+	<link rel="icon" type="image/png" href="/img/logo.png">
 
 </head>
 <body>
@@ -42,22 +52,17 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 			  <ul class="navbar-nav">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Productos
-					</a>
-					<ul class="dropdown-menu animate__animated animate__fadeIn" aria-labelledby="navbarDropdown">
-						<!-- Las categorías serán cargadas dinámicamente aquí por el código JavaScript -->
-					  </ul>
+				<li class="nav-item">
+					<a class="nav-link" href="/tienda_auth">Tienda</a>
 				</li>
 				<li class="nav-item">
-				  <a class="nav-link" href="#">Servicios</a>
+					<a class="nav-link" href="/servicios_auth">Servicios</a>
 				</li>
 				<li class="nav-item">
-				  <a class="nav-link" href="about.html">About</a>
+					<a class="nav-link" href="/about_auth">About</a>
 				</li>
 				<li class="nav-item">
-				  <a class="nav-link" href="contact.html">Contacto</a>
+					<a class="nav-link" href="/contact_Auth">Contacto</a>
 				</li>
 				<li class="nav-item nav-link " id="Logout">
 					<span class="login-text"> Cerrar sesión </span>
@@ -72,22 +77,37 @@
 	  <div id="custom-section">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-md-12">
-					<div class="content-box mb-5"> 
-						<img src="img/viper3d.png" alt="Viper 3D" class="img-responsive">
-						<p>Descubre la impresión 3D a tu alcance</p>
+				<div class="col-md-9">
+					<div class="content-box"> 
+						<img src="img/viper3d.png" alt="Foto de inicio Viper3D" class="img-fluid">
 					</div>
 				</div>
 			</div>
+			<!-- Introducción de la Página -->
+			<section class="bg-black text-white py-5">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-lg-10">
+							<h1 class="text-center mb-3">Bienvenid@ a Viper3D</h1>
+							<p class="lead text-center mb-4">
+								Buscas el regalo ideal? Decoración para el hogar o cualquier otro artilugio en 3D? baja y echale un vistazo a nuestro catalogo, ¡Encontrarás eso y mucho más!
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+	
+	
 		</div>
 	</div>
+	
 	
 	<div class="container-fluid bg-deg-down">
 	</div>
 	
 	<div class="container mt-4 mb-4 p-4 center">
 		<div class="row justify-content-center">
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-4">
 				<div class="card-overlay">
 					<img src="/img/bombillaindice.png" alt="Imagen de servicios" class="card-image">
 					<div class="card-description">
@@ -96,7 +116,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-4">
 				<div class="card-overlay">
 					<img src="/img/carrito.png" alt="Imagen de productos" class="card-image">
 					<div class="card-description">
@@ -105,7 +125,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-4">
 				<div class="card-overlay">
 					<img src="/img/eco.png" alt="Imagen de pedidos" class="card-image">
 					<div class="card-description">
@@ -116,6 +136,60 @@
 			</div>
 			
 		</div>
+		<hr class="mt-5">
+		<div class="row justify-content-center">
+			<div class="container py-4">
+				<h2 class="text-center mb-4">¡No te pierdas nada!</h2>
+				<div class="row justify-content-center text-center">
+		
+					<!-- Tarjeta para TikTok -->
+					<div class="col-md-6">
+						<div class="card mb-3 social-card bg-dark text-white">
+							<div class="card-img-wrapper">
+								<img src="/img/logotiktok.png" alt="imagen para TikTok" class="platform-logo img-fluid">
+							</div>
+							<div class="card-body">
+								<img src="/img/logorelleno.png" alt="perfil de TikTok" class="account-logo img-fluid">
+								<h5 class="card-title">@viper3doficial</h5>
+								<a href="https://www.tiktok.com/@viper3doficial" class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">Síguenos en TikTok</a>
+							</div>
+						</div>
+					</div>
+		
+					<!-- Tarjeta para Instagram -->
+					<div class="col-md-6">
+						<div class="card mb-3 social-card bg-dark text-white">
+							<div class="card-img-wrapper">
+								<img src="/img/logoinstagram.png" alt="imagen para Instagram" class="platform-logo img-fluid p-3">
+							</div>
+							<div class="card-body">
+								<img src="/img/logorelleno.png" alt="perfil de Instagram" class="account-logo img-fluid">
+								<h5 class="card-title">@viper3doficial</h5>
+								<a href="https://www.instagram.com/viper3doficial/" class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">Síguenos en Instagram</a>
+							</div>
+						</div>
+					</div>
+		
+				</div>
+	
+				<div class="row justify-content-center text-center">
+					<div class="col-md-6">
+						<div class="card mb-3 social-card bg-dark text-white">
+							<div class="card-img-wrapper">
+								<img src="/img/logoyoutube.png" alt="imagen para youtube" class="platform-logo img-fluid p-3">
+							</div>
+							<div class="card-body">
+								<img src="/img/logorelleno.png" alt="canal de youtube" class="account-logo img-fluid">
+								<h5 class="card-title">@viper3doficial</h5>
+								<a href="https://www.youtube.com/@viper3doficial" class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">Síguenos en Youtube</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
 	</div>
 	
 	<div class="container-fluid bg-deg-up">
@@ -123,52 +197,163 @@
 	
 	<div class="container-fluid adaptive-container bg-black p-4">
 		<div class="row respetar-degradado">
-		  <!-- Sección de categorías -->
-		  <div class="col-lg-4 mb-5">
-			<div class="muestra-prod rounded p-3">
-			  <h3 class="text-white text-center mb-3">Encuentra lo que buscas</h3>
-			  <div id="categorias" class="categorias-container">
-				<!-- Aquí irán las categorías que se cargarán con JavaScript -->
-			  </div>
-			</div>
-		  </div>
-	  
-		  <!-- Sección de novedades -->
-		  <div class="col-lg-8 mb-5">
-			<div class="muestra-prod rounded p-3 mb-3 ">
-			  <h3 class="text-white text-center mb-3">Novedades</h3>
-			  <div id="novedades">
-				<!-- Aquí irán las tarjetas de productos que se cargarán con JavaScript -->
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-
-	<footer class="footer-gradient py-3">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<h5>Acerca de Viper3D</h5>
-					<p>Somos una empresa especializada en la creación de productos impresos en 3D de alta calidad y diseño innovador.</p>
+			<!-- Sección de categorías -->
+			<div class="col-lg-4 mb-3">
+				<div class="muestra-prod rounded p-3">
+					<h3 class="text-white text-center mb-3">Encuentra lo que buscas</h3>
+					<div id="categorias" class="categorias-container">
+						<!-- Aquí irán las categorías que se cargarán con JavaScript -->
+					</div>
 				</div>
-				<div class="col-md-4">
+			</div>
+	
+	<!-- Sección de novedades -->
+	<div class="col-lg-8 mb-3">
+		<div class="muestra-prod rounded p-3 mb-3">
+			<div class="row justify-content-between align-items-center text-white mb-3">
+				<div class="col text-center">
+					<h3>Novedades</h3>
+				</div>
+				<div class="col-auto">
+					<a href="/tienda" class="btn btn-outline-light">Visitar Tienda</a>
+				</div>
+			</div>
+			<div id="novedades">
+				<!-- Aquí irán las tarjetas de productos que se cargarán con JavaScript -->
+			</div>
+		</div>
+	</div>
+	
+	<hr class="mt-5 text-white">
+	
+		<h2 class="text-center text-white mb-4">¿Opciones de compra?</h2>
+	
+		<section aria-label="Métodos de Envío Disponibles">
+			<div class="container">
+				<div class="row">
+					<!-- Primera tarjeta para Wallapop -->
+					<div class="col-lg-6 col-md-12 mb-4">
+						<div class="card bg-dark">
+							<img src="img/fotowallapop.png" alt="Entregas rápidas y seguras en España con Wallapop" class="card-img-top">
+							<div class="card-body text-white">
+								<h3 class="card-title">Compra a través de Wallapop</h3>
+								<p>Nuestros envíos en España son ágiles y fiables por medio de Wallapop. Te ofrecemos:</p>
+								<ul class="list-unstyled">
+									<li><i class="bi bi-truck text-success"></i> Entregas rápidas y seguras.</li>
+									<li><i class="bi bi-geo-alt text-success"></i> Seguimiento detallado del envío.</li>
+									<li><i class="bi bi-headset text-success"></i> Soporte al cliente dedicado en español.</li>
+									<li><i class="bi bi-wallet2 text-success"></i> Facilidades de pago local y confiable.</li>
+								</ul>
+								<div class="d-flex justify-content-center mt-4">
+									<a href="https://es.wallapop.com/app/user/viper3-443986743-vjrd4gqd486k/published" class="btn btn-outline-light center" target="_blank" rel="noopener noreferrer">Visitar Wallapop</a>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+		
+					<!-- Segunda tarjeta para Etsy -->
+					<div class="col-lg-6 col-md-12 mb-4">
+						<div class="card bg-dark">
+							<img src="img/imagenTienda.png" alt="Opciones de envío internacionales flexibles con Etsy" class="card-img-top">
+							<div class="card-body text-white">
+								<h3 class="card-title">Compra a través de Etsy</h3>
+								<p>Para envíos internacionales, elegimos Etsy por su:</p>
+								<ul class="list-unstyled">
+									<li><i class="bi bi-globe2 text-success"></i> Extensa cobertura y presencia global.</li>
+									<li><i class="bi bi-box-seam text-success"></i> Variedad de opciones de envío adaptativas.</li>
+									<li><i class="bi bi-shield-check text-success"></i> Seguridad y protección integral para compradores y vendedores.</li>
+									<li><i class="bi bi-broadcast text-success"></i> Disponibilidad desde y hacia España con total comodidad.</li>
+								</ul>
+								<div class="d-flex justify-content-center mt-4">
+									<a href="https://www.etsy.com/es/shop/Viper3Des" class="btn btn-outline-light center" target="_blank" rel="noopener noreferrer">Visitar Etsy</a>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+			
+		
+		<hr class="mt-5 text-white">
+	
+	<!-- Título centrado y relevante para SEO -->
+	<h2 class="text-center text-white mb-4">Compra Diseños STL para Impresión 3D</h2>
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<!-- Mejoras de accesibilidad y SEO para la tarjeta de Cults 3D -->
+			<div class="col-lg-6 col-md-12 mb-4">
+				<div class="card bg-dark">
+					<!-- Asegúrate de que la imagen tenga una palabra clave relevante en el atributo alt -->
+					<img src="img/imagencults3d.png" alt="Modelos 3D de alta calidad en Cults 3D" class="card-img-top img-fluid">
+					<div class="card-body text-white">
+						<!-- Usa etiquetas H1 o H2 para los títulos importantes -->
+						<h3 class="card-title">Explora Diseños 3D Únicos en Cults3d</h3>
+						<!-- Contenido optimizado con palabras clave relevantes -->
+						<p>En Cults 3D, descubre una extensa colección de archivos STL para imprimir en 3D, desde figuras detalladas hasta piezas prácticas:</p>
+						<ul class="list-unstyled">
+							<li><i class="bi bi-check-circle-fill text-success"></i> Diseños STL exclusivos y de alta calidad.</li>
+							<li><i class="bi bi-check-circle-fill text-success"></i> Conecta con una comunidad dedicada a la impresión 3D.</li>
+							<li><i class="bi bi-check-circle-fill text-success"></i> Apoyo continuo a los artistas y diseñadores 3D.</li>
+							<li><i class="bi bi-check-circle-fill text-success"></i> Descargas sencillas para que imprimas tus modelos 3D preferidos.</li>
+						</ul>
+						<p>¡Convierte los diseños digitales en realidad y comienza a imprimir 3D ahora mismo!</p>
+						<!-- Botón de Bootstrap para acción principal -->
+						<div class="d-flex justify-content-center mt-4">
+							<a href="https://cults3d.com/en/users/VIPER_3D/" class="btn btn-outline-light center" target="_blank" rel="noopener noreferrer">Visita nuestro perfil</a>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	</div>
+	</div>
+	
+	  <footer class="footer-gradient py-3">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-4 text-center">
+					<h5>Acerca de Viper3D</h5>
+					<p>Somos una iniciativa que busca integrar la impresión 3D en la vida cotidiana a través de diseños STL listos para imprimir en casa y una variedad de regalos y decoraciones.</p>
+				</div>
+				<div class="col-md-4 text-center">
 					<h5>Enlaces rápidos</h5>
 					<ul class="list-unstyled">
-						<li><a href="#">Inicio</a></li>
-						<li><a href="#">Productos</a></li>
-						<li><a href="#">Servicios</a></li>
-						<li><a href="#">Sobre Nosotros</a></li>
-						<li><a href="#">Contacto</a></li>
+						<li><a href="/">Inicio</a></li>
+						<li><a href="/tienda_auth">Tienda</a></li>
+						<li><a href="/servicios_auth">Servicios</a></li>
+						<li><a href="/about_auth">Sobre Nosotros</a></li>
+						<li><a href="/contact_auth">Contacto</a></li>
 					</ul>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 text-center">
 					<h5>Síguenos en redes sociales</h5>
 					<ul class="list-unstyled list-inline">
-						<li class="list-inline-item"><a href="#"><i class="fab fa-facebook"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fab fa-linkedin"></i></a></li>
+						<li class="list-inline-item">
+							<a href="https://www.youtube.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+								<i class="fab fa-youtube"></i>
+							</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="https://www.tiktok.com/@viper3doficial" class="social-icon" target="_blank" rel="noopener noreferrer">
+								<i class="fab fa-tiktok"></i>
+							</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="https://www.instagram.com/viper3doficial/" class="social-icon" target="_blank" rel="noopener noreferrer">
+								<i class="fab fa-instagram"></i>
+							</a>
+						</li>
+						<li class="list-inline-item">
+							<a href="https://www.facebook.com/profile.php?id=61552051646865" class="social-icon" target="_blank" rel="noopener noreferrer">
+								<i class="fab fa-facebook-f"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -181,20 +366,18 @@
 		</div>
 	</footer>
 	
-    <!-- Biblioteca jQuery, requerida por Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Biblioteca Popper.js, requerida por Bootstrap para algunos componentes -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    
-    <!-- Biblioteca de JavaScript de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
-	<script src="/js/main_auth.js"></script>
-	<script src="/js/submenu_categories.js"></script>
-
+		<!-- Biblioteca jQuery, requerida por Bootstrap -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		
+		<!-- Biblioteca Popper.js, requerida por Bootstrap para algunos componentes -->
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		
+		<!-- Biblioteca de JavaScript de Bootstrap -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 	
-	
-</body>
-</html>
+		<script src="/js/main_auth.js"></script>
+		<script src="/js/index_productos.js"></script>
 
+	</body>
+	</html>
+	

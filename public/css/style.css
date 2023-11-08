@@ -595,29 +595,6 @@ html, body {
 
 
 
-
-/* Estilo global para la lista con ticks */
-ul.checklist {
-  list-style: none; /* Elimina el estilo de lista predeterminado */
-  padding-left: 0; /* Elimina el padding predeterminado */
-}
-
-ul.checklist li {
-  position: relative; /* Permite posicionar el pseudo-elemento respecto a este elemento */
-  padding-left: 25px; /* Espacio para el ícono de tick */
-  margin-bottom: 10px; /* Opcional: Espacio entre los elementos de la lista */
-}
-
-ul.checklist li::before {
-  content: '✔'; /* Carácter de tick */
-  position: absolute; /* Posicionamiento absoluto respecto al li */
-  left: 0; /* Alinea al principio de la lista */
-  color: blue; /* Color del tick */
-  font-size: 18px; /* Tamaño del tick */
-  line-height: 1; /* Altura de línea para centrar verticalmente el tick si es necesario */
-}
-
-
 .social-card {
   display: flex;
   flex-direction: row;
