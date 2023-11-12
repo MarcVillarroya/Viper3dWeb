@@ -151,6 +151,9 @@ async function fetchProductsByCategory(categoryId) {
 
     products.forEach((product, index) => {
       const col = document.createElement('div');
+      const googleDriveImageBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+      const imageUrl = product.image1 ? `${googleDriveImageBaseUrl}${product.image1}` : 'path/to/default/image';
+
     col.className = 'col';
 
     const card = document.createElement('div');
@@ -159,7 +162,7 @@ async function fetchProductsByCategory(categoryId) {
 
       card.innerHTML = `
         <div class="image-container-control mt-3">
-          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" alt="${product.product_name}">
+        <img src="${imageUrl}" class="card-img-top thumbnail" alt="${product.product_name}">
         </div>
 
         <div class="card-body">
@@ -208,17 +211,19 @@ function openEditProductModal(productId) {
       document.querySelector('#editProductForm #categoryId').value = product.category_id;
 
        // Agrega las vistas previas de las imágenes y el video existentes al modal de edición
-       const imageUrlPrefix = '/img_productos/';
-       const videoUrlPrefix = '/video_productos/';
+       const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
  
        for (let i = 1; i <= 5; i++) {
-         if (product[`image${i}`]) {
-           addPreviewToEditModal('image', imageUrlPrefix + product[`image${i}`], `editImages${i}`, `editImagePreviews${i}`);
-         }
-       }
+        const imageId = product[`image${i}`];
+        if (imageId) {
+          const imageUrl = `${googleDriveBaseUrl}${imageId}`;
+          addPreviewToEditModal('image', imageUrl, `editImages${i}`, `editImagePreviews${i}`);
+        }
+      }
  
        if (product.video) {
-         addPreviewToEditModal('video', videoUrlPrefix + product.video, 'editVideo', 'editVideoPreview');
+        const videoUrl = `${googleDriveBaseUrl}${product.video}`;
+        addPreviewToEditModal('video', videoUrl, 'editVideo', 'editVideoPreview');
        }
  
 

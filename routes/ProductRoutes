@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getProducts, createProduct, deleteProduct, updateProduct, getProductsByCategory, getProductById} = require('../database/products');
-const { upload } = require('../multerConfig');
+const { upload, uploadFileToGoogleDrive, deleteFileFromGoogleDrive } = require('../multerConfig');
 const fs = require('fs');
 const path = require('path');
 const authProductRouter = express.Router();
@@ -92,30 +92,27 @@ router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Consultar el producto para obtener la ruta de las imágenes y el video
-    const product = await getProductById(id);
+      const product = await getProductById(id);
 
-    // Eliminar las imágenes del servidor
-    for (let i = 1; i <= 5; i++) {
-      const imageKey = `image${i}`;
-      if (product[imageKey]) {
-        const imagePath = path.join(__dirname, '..', 'public', 'img_productos', product[imageKey]);
-        deleteImage(imagePath);
+      // Eliminar las imágenes de Google Drive
+      for (let i = 1; i <= 5; i++) {
+          const imageKey = `image${i}`;
+          if (product[imageKey]) {
+              await deleteFileFromGoogleDrive(product[imageKey]);
+          }
       }
-    }
 
-    // Eliminar el video del servidor
-    if (product.video_link) {
-      const videoPath = path.join(__dirname, '..', 'public', 'video_productos', product.video_link);
-      deleteImage(videoPath);
-    }
+      // Eliminar el video de Google Drive
+      if (product.video_link) {
+          await deleteFileFromGoogleDrive(product.video_link);
+      }
 
-    // Eliminar el producto de la base de datos
-    await deleteProduct(id);
-    res.status(200).send('Producto eliminado con éxito');
+      // Eliminar el producto de la base de datos
+      await deleteProduct(id);
+      res.status(200).send('Producto eliminado con éxito');
   } catch (error) {
-    console.error('Error al eliminar el producto:', error);
-    res.status(500).send('Error al eliminar el producto');
+      console.error('Error al eliminar el producto:', error);
+      res.status(500).send('Error al eliminar el producto');
   }
 });
 
@@ -126,47 +123,53 @@ router.put('/update/:id', upload.fields([{ name: 'images[]', maxCount: 5 }, { na
   const { product_name, product_description, price, purchase_link, category_id } = req.body;
 
   try {
-    // Consultar el producto para obtener la ruta de las imágenes y el video
-    const oldProduct = await getProductById(id);
+      const oldProduct = await getProductById(id);
 
-    const images = req.files['images[]'] || [];
-    const video = req.files['video'] ? req.files['video'][0] : null;
+      const images = req.files['images[]'] || [];
+      const video = req.files['video'] ? req.files['video'][0] : null;
 
-    // Eliminar las imágenes antiguas del servidor si se han subido nuevas imágenes
-    for (let i = 0; i < images.length; i++) {
-      const imageKey = `image${i + 1}`;
-      if (oldProduct[imageKey]) {
-        const imagePath = path.join(__dirname, '..', 'public', 'img_productos', oldProduct[imageKey]);
-        deleteImage(imagePath);
+      // Subir nuevas imágenes y eliminar las antiguas
+      const newImageIds = [];
+      for (let i = 0; i < images.length; i++) {
+          const newImageId = await uploadFileToGoogleDrive(images[i], false);
+          newImageIds.push(newImageId);
+
+          // Eliminar imagen antigua si existe
+          const oldImageId = oldProduct[`image${i + 1}`];
+          if (oldImageId) {
+              await deleteFileFromGoogleDrive(oldImageId);
+          }
       }
-    }
 
-    // Eliminar el video antiguo del servidor si se ha subido un nuevo video
-    if (video && oldProduct.video_link) {
-      const videoPath = path.join(__dirname, '..', 'public', 'video_productos', oldProduct.video_link);
-      deleteImage(videoPath);
-    }
+      // Subir nuevo video y eliminar el antiguo
+      let newVideoId = oldProduct.video_link;
+      if (video) {
+          newVideoId = await uploadFileToGoogleDrive(video, true);
+          if (oldProduct.video_link) {
+              await deleteFileFromGoogleDrive(oldProduct.video_link);
+          }
+      }
 
-    // Actualizar el producto en la base de datos con las nuevas imágenes y video
-    await updateProduct(
-      id,
-      product_name,
-      product_description,
-      images.length > 0 && images[0] !== null ? images[0].filename : oldProduct.image1,
-      images.length > 1 && images[1] !== null ? images[1].filename : oldProduct.image2,
-      images.length > 2 && images[2] !== null ? images[2].filename : oldProduct.image3,
-      images.length > 3 && images[3] !== null ? images[3].filename : oldProduct.image4,
-      images.length > 4 && images[4] !== null ? images[4].filename : oldProduct.image5,
-      video && video !== null ? video.filename : oldProduct.video_link,
-      price,
-      purchase_link,
-      category_id
-    );
+      // Actualizar el producto en la base de datos
+      await updateProduct(
+          id,
+          product_name,
+          product_description,
+          newImageIds[0] || oldProduct.image1,
+          newImageIds[1] || oldProduct.image2,
+          newImageIds[2] || oldProduct.image3,
+          newImageIds[3] || oldProduct.image4,
+          newImageIds[4] || oldProduct.image5,
+          newVideoId,
+          price,
+          purchase_link,
+          category_id
+      );
 
-    res.status(200).send('Producto actualizado con éxito');
+      res.status(200).send('Producto actualizado con éxito');
   } catch (error) {
-    console.error('Error al actualizar el producto:', error);
-    res.status(500).send('Error al actualizar el producto');
+      console.error('Error al actualizar el producto:', error);
+      res.status(500).send('Error al actualizar el producto');
   }
 });
 
@@ -188,32 +191,38 @@ router.get('/getProductsByCategory/:categoryId', async (req, res) => {
 // Ruta para crear un nuevo producto (elimina la anterior)
 router.post('/create', upload.fields([{ name: 'images[]', maxCount: 25 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
   const { product_name, product_description, price, purchase_link, category_id } = req.body;
-  
   const images = req.files['images[]'] || [];
   const video = req.files['video'] ? req.files['video'][0] : null;
-  
-  
+
   try {
-    const newProduct = await createProduct(
-      product_name,
-      product_description,
-      images.length > 0 ? images[0].filename : null,
-      images.length > 1 ? images[1].filename : null,
-      images.length > 2 ? images[2].filename : null,
-      images.length > 3 ? images[3].filename : null,
-      images.length > 4 ? images[4].filename : null,
-      video ? video.filename : null,
-      price,
-      purchase_link,
-      category_id
-    );
-    
-    res.status(200).json(newProduct);
+      // Subir imágenes a Google Drive y obtener sus IDs
+      const imageIds = await Promise.all(images.map(image => uploadFileToGoogleDrive(image, false))); // false indica que no es un video
+
+      // Subir video a Google Drive y obtener su ID
+      const videoId = video ? await uploadFileToGoogleDrive(video, true) : null; // true indica que es un video
+
+      // Crear un nuevo producto con los IDs de Google Drive
+      const newProduct = await createProduct(
+          product_name,
+          product_description,
+          imageIds.length > 0 ? imageIds[0] : null,
+          imageIds.length > 1 ? imageIds[1] : null,
+          imageIds.length > 2 ? imageIds[2] : null,
+          imageIds.length > 3 ? imageIds[3] : null,
+          imageIds.length > 4 ? imageIds[4] : null,
+          videoId,
+          price,
+          purchase_link,
+          category_id
+      );
+
+      res.status(200).json(newProduct);
   } catch (error) {
-    console.error('Error al crear el producto:', error);
-    res.status(500).send('Error al crear el producto');
+      console.error('Error al crear el producto:', error);
+      res.status(500).send('Error al crear el producto');
   }
 });
+
   
 
 module.exports = { productRouter: router, authProductRouter }; // Modifica esta línea

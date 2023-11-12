@@ -104,9 +104,13 @@ async function loadProductsByCategory(categoryId, page) {
     row.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4';
     productsContainer.appendChild(row);
 
+    const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
     paginatedProducts.forEach((product, index) => {
       // Calcular la posición original del producto en el array no revertido
       const originalIndex = products.length - 1 - reversedProducts.indexOf(product);
+
+      const imageUrl = product.image1 ? `${googleDriveBaseUrl}${product.image1}` : 'path/to/default/image';
 
       const col = document.createElement('div');
       col.className = 'col-lg-3 col-md-6 col-sm-6 animate__animated animate__fadeInDown';
@@ -120,7 +124,7 @@ async function loadProductsByCategory(categoryId, page) {
 
       card.innerHTML = `
         <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
+          <img src="${imageUrl}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
         </div>
       
         <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
@@ -200,24 +204,24 @@ async function showProductModal(productId) {
     const productModalLabel = document.getElementById('productModalLabel');
     productModalLabel.textContent = product.product_name;
 
+    const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
     const carouselElement = document.querySelector('#productCarousel');
 
-    // Verificar si existe el carrusel en la página
     if (carouselElement) {
       const carouselInner = carouselElement.querySelector('.carousel-inner');
       carouselInner.innerHTML = '';
 
-      const imageUrlPrefix = '/img_productos/';
-
       let hasActiveItem = false;
 
       for (let i = 1; i <= 5; i++) {
-        if (product[`image${i}`]) {
+        const imageId = product[`image${i}`];
+        if (imageId) {
           const carouselItem = document.createElement('div');
           carouselItem.className = `carousel-item${hasActiveItem ? '' : ' active'}`;
 
           const img = document.createElement('img');
-          img.src = imageUrlPrefix + product[`image${i}`];
+          img.src = `${googleDriveBaseUrl}${imageId}`;
           img.className = 'd-block w-100';
           img.alt = `Imagen ${i} del producto ${product.product_name}`;
 
@@ -228,17 +232,15 @@ async function showProductModal(productId) {
         }
       }
 
-      if (product.video_link) {
+      const videoId = product.video_link;
+      if (videoId) {
         const carouselItem = document.createElement('div');
         carouselItem.className = `carousel-item${hasActiveItem ? '' : ' active'}`;
 
         const video = document.createElement('video');
-        const productVideoId = 'product-video';
-        video.id = productVideoId;
         video.className = 'video-js vjs-default-skin d-block w-100';
-        video.setAttribute('data-setup', '{}');
         video.controls = true;
-        video.setAttribute('src', `/video_productos/${product.video_link}`);
+        video.src = `${googleDriveBaseUrl}${videoId}`;
 
         carouselItem.appendChild(video);
         carouselInner.appendChild(carouselItem);

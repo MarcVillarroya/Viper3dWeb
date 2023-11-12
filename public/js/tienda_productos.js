@@ -74,11 +74,14 @@ async function loadAllProducts(page = 1) {
     row.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4';
     productsContainer.appendChild(row);
 
+    const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
 
     paginatedProducts.forEach((product, index) => {
       // Calcular la posición original del producto en el array no revertido
       const originalIndex = products.length - 1 - reversedProducts.indexOf(product);
 
+      const imageUrl = product.image1 ? `${googleDriveBaseUrl}${product.image1}` : 'path/to/default/image';
       const col = document.createElement('div');
       col.className = 'col-lg-3 col-md-6 col-sm-6 animate__animated animate__fadeInDown';
       col.style.animationDelay = `${(paginatedProducts.length - 1 - index) * 100}ms`;
@@ -91,7 +94,7 @@ async function loadAllProducts(page = 1) {
 
       card.innerHTML = `
         <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
+          <img src="${imageUrl}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
         </div>
       
         <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
@@ -162,6 +165,8 @@ async function showProductModal(productId) {
     const productModalLabel = document.getElementById('productModalLabel');
     productModalLabel.textContent = product.product_name;
 
+    const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
     const carouselElement = document.querySelector('#productCarousel');
 
     // Verificar si existe el carrusel en la página
@@ -169,17 +174,16 @@ async function showProductModal(productId) {
       const carouselInner = carouselElement.querySelector('.carousel-inner');
       carouselInner.innerHTML = '';
 
-      const imageUrlPrefix = '/img_productos/';
-
       let hasActiveItem = false;
 
       for (let i = 1; i <= 5; i++) {
-        if (product[`image${i}`]) {
+        const imageId = product[`image${i}`];
+        if (imageId) {
           const carouselItem = document.createElement('div');
           carouselItem.className = `carousel-item${hasActiveItem ? '' : ' active'}`;
 
           const img = document.createElement('img');
-          img.src = imageUrlPrefix + product[`image${i}`];
+          img.src = `${googleDriveBaseUrl}${imageId}`;
           img.className = 'd-block w-100';
           img.alt = `Imagen ${i} del producto ${product.product_name}`;
 
@@ -190,17 +194,15 @@ async function showProductModal(productId) {
         }
       }
 
-      if (product.video_link) {
+      const videoId = product.video_link;
+      if (videoId) {
         const carouselItem = document.createElement('div');
         carouselItem.className = `carousel-item${hasActiveItem ? '' : ' active'}`;
 
         const video = document.createElement('video');
-        const productVideoId = 'product-video';
-        video.id = productVideoId;
         video.className = 'video-js vjs-default-skin d-block w-100';
-        video.setAttribute('data-setup', '{}');
         video.controls = true;
-        video.setAttribute('src', `/video_productos/${product.video_link}`);
+        video.src = `${googleDriveBaseUrl}${videoId}`;
 
         carouselItem.appendChild(video);
         carouselInner.appendChild(carouselItem);
@@ -264,40 +266,44 @@ async function mostrarProductosDestacados() {
   let contenedorDestacados = document.getElementById("destacados");
   contenedorDestacados.innerHTML = '';  // Limpiar el contenedor en caso de que ya contenga productos
 
+  // Base URL para imágenes en Google Drive
+  const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
   const row = document.createElement('div');
   row.className = 'row';
 
   for (let id of idsDestacados) {
-      try {
-        
-          let producto = await fetchProductById(id);
+    try {
+      let producto = await fetchProductById(id);
+      const imageUrl = producto.image1 ? `${googleDriveBaseUrl}${producto.image1}` : 'path/to/default/image';
 
-          const col = document.createElement('div');
-          col.className = 'col-lg-3 col-md-3 col-6';
+      const col = document.createElement('div');
+      col.className = 'col-lg-3 col-md-3 col-6';
 
-          const productCard = document.createElement('div');
-          productCard.className = 'card product-card d-flex flex-column mb-5';
-          productCard.style.borderRadius = '10px';
-          productCard.innerHTML = `
-              <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-                  <img src="/img_productos/${producto.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${producto.product_name}">
-              </div>
-              <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                  <h5 class="card-title card-title-one-line">${producto.product_name}</h5>
-                  <p class="card-text">€${Number(producto.price).toFixed(2)}</p>
-              </div>
-          `;
+      const productCard = document.createElement('div');
+      productCard.className = 'card product-card d-flex flex-column mb-5';
+      productCard.style.borderRadius = '10px';
+      productCard.innerHTML = `
+        <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
+            <img src="${imageUrl}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${producto.product_name}">
+        </div>
+        <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="card-title card-title-one-line">${producto.product_name}</h5>
+            <p class="card-text">€${Number(producto.price).toFixed(2)}</p>
+        </div>
+      `;
 
-          col.appendChild(productCard);
-          row.appendChild(col);
+      col.appendChild(productCard);
+      row.appendChild(col);
 
-      } catch (error) {
-          console.error('Error al obtener y mostrar el producto destacado:', error);
-      }
+    } catch (error) {
+      console.error('Error al obtener y mostrar el producto destacado:', error);
+    }
   }
 
   contenedorDestacados.appendChild(row);
 }
+
 
 
 

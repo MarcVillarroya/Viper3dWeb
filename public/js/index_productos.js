@@ -92,6 +92,9 @@ async function loadLatestProducts() {
     const productsContainer = document.querySelector('#novedades');
     productsContainer.innerHTML = '';
 
+    // Base URL para imágenes en Google Drive
+    const googleDriveBaseUrl = 'https://drive.google.com/uc?export=view&id=';
+
     const row = document.createElement('div');
     row.className = 'row';
 
@@ -99,28 +102,31 @@ async function loadLatestProducts() {
       const col = document.createElement('div');
       col.className = 'col-lg-3 col-md-3 col-6';
       
+      const imageUrl = product.image1 ? `${googleDriveBaseUrl}${product.image1}` : 'path/to/default/image';
+
       const productCard = document.createElement('div');
       productCard.className = 'card product-card d-flex flex-column';
       productCard.style.borderRadius = '10px';
       productCard.innerHTML = `
         <div class="image-container-control" style="padding-top: 100%; position: relative; overflow: hidden;">
-          <img src="/img_productos/${product.image1}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
+          <img src="${imageUrl}" class="card-img-top thumbnail" style="border-top-left-radius: 10px; border-top-right-radius: 10px; object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;" alt="${product.product_name}">
         </div>
         <div class="card-footer bg-dark text-white mt-auto" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
           <h5 class="card-title card-title-one-line">${product.product_name}</h5>
           <p class="card-text">€${Number(product.price).toFixed(2)}</p>
         </div>
       `;
+
       col.appendChild(productCard);
       row.appendChild(col);
     });
 
     productsContainer.appendChild(row);
-    
   } catch (error) {
     console.error('Error al cargar los productos más recientes:', error);
   }
 }
+
 
 
 
